@@ -15,6 +15,8 @@ namespace DataAccess
         protected GetCustomersRequest ApiRequest { get; set; }
         protected GetCustomersResponse ApiResponse { get; set; }
         protected List<ExigoContact> ContactList { get; set; }
+        private List<int> KnownWebAlais { get; set; }
+
         protected ExigoApi ApiContext { get; set; }
 
         private string LastMethodUsed { get; set; }
@@ -25,6 +27,7 @@ namespace DataAccess
         {
             ContactList = new List<ExigoContact>();
             ApiContext = ExigoApiContext.CreateWebServiceContext();
+            KnownWebAlais = new List<int>();
             LastMethodUsed = "NA";
         }
 
@@ -135,7 +138,8 @@ namespace DataAccess
                         State = resp.MainState,
                         Zip = resp.MainZip,
                         Country = Utilities.ConvertCountryForCRM(resp.MainCountry),
-                        EnrollerID = resp.EnrollerID,
+                        EnrollerID = resp.EnrollerID
+
 
                     };
                     //if (exigoContact.CustomerType == ExigoCustomerType.Independant)
@@ -151,27 +155,61 @@ namespace DataAccess
                     exigoContact.HomePhone = (string.IsNullOrWhiteSpace(resp.Phone2)) ? string.Empty : resp.Phone2.FormatPhoneCRM(exigoContact.Country);
                     ContactList.Add(exigoContact);
                 }
-                GetWebAlias();
+                ContactList.AsParallel().Where(c=>c.CustomerType == ExigoCustomerType.Independant).AsParallel().ForAll(AssignAlias);
+                ContactList.AsParallel().Where(c => c.CustomerType != ExigoCustomerType.Independant).AsParallel().ForAll(AssignEnrollerAlias);
             }
         }
 
 
-        private void GetWebAlias()
-        {
-            foreach (var exigoContact in ContactList)
-            {
-                if (exigoContact.CustomerType == ExigoCustomerType.Independant)
-                {
-                    exigoContact.WebAlias = Utilities.GetWebAlias(exigoContact.ExigoID, ApiContext);
-                }
-                else
-                {
-                    exigoContact.EnrollerWebAlias = Utilities.GetWebAlias(exigoContact.EnrollerID, ApiContext);
-                }
 
-            }
-        }
         #endregion Private Methods
+
+        #region Delegates
+        delegate void GetAlias(ExigoContact contact);
+
+
+        private void AssignAlias(ExigoContact contact)
+        {
+            if (contact.CustomerType == ExigoCustomerType.Independant)
+            {
+                try
+                {
+                    contact.WebAlias = ExigoApiContext.CreateWebServiceContext().GetCustomerSite(new GetCustomerSiteRequest()
+                {
+                    CustomerID = contact.ExigoID
+                }).WebAlias;
+                   KnownWebAlais.Add(contact.ExigoID);
+                }
+                catch
+                {
+
+                }
+            }
+        }
+        private void AssignEnrollerAlias(ExigoContact contact)
+        {
+
+            if (KnownWebAlais.Contains(contact.EnrollerID))
+            {
+                contact.EnrollerWebAlias = ContactList.Where(c => c.ExigoID == contact.EnrollerID).Select(c => c.WebAlias).FirstOrDefault();
+            }
+            else
+            {
+                try
+                {
+                    contact.EnrollerWebAlias = ExigoApiContext.CreateWebServiceContext().GetCustomerSite(new GetCustomerSiteRequest()
+                    {
+                        CustomerID = contact.EnrollerID
+                    }).WebAlias;
+                }
+
+                catch { }
+            }
+        }   
+        
+
+        #endregion Delegates
+
 
 
         #region Public Methods
@@ -184,6 +222,10 @@ namespace DataAccess
             if (LastMethodUsed == "Last2Days")
             {
                 return ContactList;
+            }
+            if (LastMethodUsed == "AllAcounts")
+            {
+                return ContactList.AsParallel().Where(c => c.StartDate.Date >= DateTime.Now.Date.Subtract(TimeSpan.FromDays(2))).ToList();
             }
             ContactList.Clear();
             AccountsFromLast2Days();
@@ -229,6 +271,10 @@ namespace DataAccess
             {
                 return ContactList;
             }
+            if (LastMethodUsed == "AllAcounts")
+            {
+                return ContactList.AsParallel().Where(c => c.ExigoID > ID).ToList();
+            }
             ContactList.Clear();
             AccountsGreaterThanID(ID);
             SendApiRequest();
@@ -252,6 +298,10 @@ namespace DataAccess
             if (LastMethodUsed == "GreaterThanModDate")
             {
                 return ContactList;
+            }
+            if (LastMethodUsed == "AllAcounts")
+            {
+                return ContactList.AsParallel().Where(c => c.LastModified.Date >= DateTime.Now.Date).ToList();
             }
             ContactList.Clear();
             AccountsGreaterThanModfiedDate(modifiedDate);
@@ -279,7 +329,7 @@ namespace DataAccess
             {
                 GetAllAccounts();
             }
-            return ContactList.Where(c => string.IsNullOrEmpty(c.CrmGuid)).ToList();
+            return ContactList.AsParallel().Where(c => string.IsNullOrEmpty(c.CrmGuid)).ToList();
 
         }
 
@@ -293,6 +343,10 @@ namespace DataAccess
             if (LastMethodUsed == id.ToString())
             {
                 return ContactList.FirstOrDefault();
+            }
+            if (LastMethodUsed == "AllAcounts")
+            {
+                return ContactList.AsParallel().Where(c => c.ExigoID == id).FirstOrDefault();
             }
             ContactList.Clear();
             SingleAccount(id);
