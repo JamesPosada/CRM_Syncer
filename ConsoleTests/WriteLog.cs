@@ -11,7 +11,9 @@ namespace ConsoleTests
    {
        public WriteLog(string Log)
        {
-           var x = File.AppendText(@"C:\SyncerLog.txt");
+          
+           var x = File.AppendText(@"C:\ExigoNoGUIDs.csv");
+
            x.Write(Log);
            x.Close();          
            

@@ -37,7 +37,7 @@ namespace DataAccess
         {
             ApiRequest = new GetCustomersRequest()
             {
-                
+
                 CustomerStatuses = new int[] { 1 },
                 CustomerID = id
             };
@@ -46,7 +46,7 @@ namespace DataAccess
 
         private void AccountsFromLast2Days()
         {
-          
+
             ApiRequest = new GetCustomersRequest()
             {
                 BatchSize = 500,
@@ -111,7 +111,7 @@ namespace DataAccess
         {
             if (ApiResponse.RecordCount > 0)
             {
-                
+
                 foreach (var resp in ApiResponse.Customers)
                 {
                     ExigoContact exigoContact = new ExigoContact()
@@ -134,23 +134,41 @@ namespace DataAccess
                         City = resp.MainCity,
                         State = resp.MainState,
                         Zip = resp.MainZip,
-                        Country = Utilities.ConvertCountryForCRM(resp.MainCountry),                        
-                        EnrollerID = resp.EnrollerID,                        
-                    
+                        Country = Utilities.ConvertCountryForCRM(resp.MainCountry),
+                        EnrollerID = resp.EnrollerID,
+
                     };
-                    if (exigoContact.CustomerType == ExigoCustomerType.Independant)
-                    {
-                        exigoContact.WebAlias = Utilities.GetWebAlias(resp.CustomerID, ApiContext);
-                    }
-                    else
-                    {
-                        exigoContact.EnrollerWebAlias = Utilities.GetWebAlias(resp.EnrollerID, ApiContext);
-                    }
+                    //if (exigoContact.CustomerType == ExigoCustomerType.Independant)
+                    //{
+                    //    exigoContact.WebAlias = Utilities.GetWebAlias(resp.CustomerID, ApiContext);
+                    //}
+                    //else
+                    //{
+                    //    exigoContact.EnrollerWebAlias = Utilities.GetWebAlias(resp.EnrollerID, ApiContext);
+                    //}
                     exigoContact.MobilePhone = (string.IsNullOrWhiteSpace(resp.MobilePhone)) ? string.Empty : resp.MobilePhone.FormatPhoneCRM(exigoContact.Country);
-                    exigoContact.BusinessPhone = (string.IsNullOrWhiteSpace(resp.Phone))? string.Empty: resp.Phone.FormatPhoneCRM(exigoContact.Country);
+                    exigoContact.BusinessPhone = (string.IsNullOrWhiteSpace(resp.Phone)) ? string.Empty : resp.Phone.FormatPhoneCRM(exigoContact.Country);
                     exigoContact.HomePhone = (string.IsNullOrWhiteSpace(resp.Phone2)) ? string.Empty : resp.Phone2.FormatPhoneCRM(exigoContact.Country);
                     ContactList.Add(exigoContact);
                 }
+                GetWebAlias();
+            }
+        }
+
+
+        private void GetWebAlias()
+        {
+            foreach (var exigoContact in ContactList)
+            {
+                if (exigoContact.CustomerType == ExigoCustomerType.Independant)
+                {
+                    exigoContact.WebAlias = Utilities.GetWebAlias(exigoContact.ExigoID, ApiContext);
+                }
+                else
+                {
+                    exigoContact.EnrollerWebAlias = Utilities.GetWebAlias(exigoContact.EnrollerID, ApiContext);
+                }
+
             }
         }
         #endregion Private Methods
@@ -191,7 +209,7 @@ namespace DataAccess
             ContactList.Clear();
             AllAccounts();
             SendApiRequest();
-           
+
             ConvertResponseToModel();
             if (ApiResponse.Result.Status == ResultStatus.Success)
             {
@@ -244,10 +262,10 @@ namespace DataAccess
                 LastMethodUsed = "GreaterThanModDate";
             }
             return ContactList;
-            
+
         }
 
-       
+
 
 
 
@@ -261,10 +279,10 @@ namespace DataAccess
             {
                 GetAllAccounts();
             }
-            return ContactList.Where(c=>string.IsNullOrEmpty(c.CrmGuid)).ToList();
-            
+            return ContactList.Where(c => string.IsNullOrEmpty(c.CrmGuid)).ToList();
+
         }
-        
+
         /// <summary>
         /// Returns a single 
         /// </summary>
