@@ -5,6 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
+App_Data/Settings.cs
 
 # Build results
 
