@@ -155,3 +155,5 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+Logger/AppCode/Settings.cs
+DataAccess/AppCode/Settings.cs
