@@ -39,12 +39,12 @@ namespace DataControls
            {
                if(WithoutGuid.Where(c=>c.ExigoID == crmContact.new_FREZZORID).FirstOrDefault() !=null)
                {
-                   var exContact = WithoutGuid.Where(c => c.ExigoID == crmContact.new_FREZZORID).FirstOrDefault();
-                   exContact.CrmGuid = crmContact.Id.ToString();
+                   var exigoContact = WithoutGuid.Where(c => c.ExigoID == crmContact.new_FREZZORID).FirstOrDefault();
+                   exigoContact.CrmGuid = crmContact.Id.ToString();
                     var response = ExigoApiContext.CreateWebServiceContext().UpdateCustomer(new UpdateCustomerRequest()
                        {
-                           CustomerID = exContact.ExigoID,
-                           Field8 = exContact.CrmGuid
+                           CustomerID = exigoContact.ExigoID,
+                           Field8 = exigoContact.CrmGuid
                        });
                    if(response.Result.Status == ResultStatus.Success)
                    { 

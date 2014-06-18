@@ -359,6 +359,7 @@ namespace DataAccess
             return ContactList.FirstOrDefault();
         }
 
+
         #endregion Public Methods
     }
 }
