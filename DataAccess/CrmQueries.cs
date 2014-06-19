@@ -218,7 +218,7 @@ namespace DataAccess
         const string EnrollerId = "new_enrollerid";
         const string EnrollerWebAlias = "new_enrollerwebalias";
         const string SkypeID = "new_skypeid";
-        const string WebAlias = "new_webalias";
+        const string WebAlias = "nickname";
         const string FrezzorCustomerType = "new_type";
         const string FrezzorStatus = "new_status";
         const string ContactGUID = "contactid";

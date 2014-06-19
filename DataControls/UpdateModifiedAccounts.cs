@@ -64,13 +64,13 @@ namespace DataControls
         {
             crmAccounts.Clear();
             AccountsToUpdate.AsParallel().ForAll(PopulateCrmAccounts);
-            //Parallel.ForEach<Contact>(crmAccounts, RunThroughUpdater);
-            ExigoRemoveGUIDs.ForEach(a => AccountsToUpdate.Remove(a));
-            foreach (var c in crmAccounts)
-            {
-                RunThroughUpdater(c);
-            }
-            updater.UpdateAllContacts();
+            Parallel.ForEach<Contact>(crmAccounts, RunThroughUpdater);
+            //ExigoRemoveGUIDs.ForEach(a => AccountsToUpdate.Remove(a));
+            //foreach (var c in crmAccounts)
+            //{
+            //    RunThroughUpdater(c);
+            //}
+            //updater.UpdateAllContacts();
 
         }
 

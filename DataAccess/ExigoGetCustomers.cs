@@ -143,15 +143,8 @@ namespace DataAccess
 
 
                     };
-                    //if (exigoContact.CustomerType == ExigoCustomerType.Independant)
-                    //{
-                    //    exigoContact.WebAlias = Utilities.GetWebAlias(resp.CustomerID, ApiContext);
-                    //}
-                    //else
-                    //{
-                    //    exigoContact.EnrollerWebAlias = Utilities.GetWebAlias(resp.EnrollerID, ApiContext);
-                    //}
-                    ExigoGenderType gender;//
+                  
+                    ExigoGenderType gender;
                     if (Enum.TryParse(resp.Gender.ToString(), out gender))
                     { exigoContact.Gender = gender; };
 

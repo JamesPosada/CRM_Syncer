@@ -253,7 +253,7 @@ namespace DataControls
             {
                 if (!stringFieldMatch(exigoContact.WebAlias, crmContact.New_WebAlias, guid, WebAlias, exigoContact.ExigoID))
                 {
-                    _currentAccount.New_WebAlias = exigoContact.WebAlias;
+                    _currentAccount.NickName = exigoContact.WebAlias;
                 }
             }
 
@@ -265,11 +265,20 @@ namespace DataControls
                     _currentAccount.new_EnrollerWebAlias = exigoContact.EnrollerWebAlias;
                 }
             }
+            
+            if (exigoContact.CustomerType != ExigoCustomerType.Independant && !string.IsNullOrEmpty(exigoContact.WebAlias))
+            {
+                _currentAccount.NickName = string.Empty;
+            }
+
             if (_currentAccountIsModified)
             {
                 _changedAccounts.Add(_currentAccount);
 
             }
+
+
+
         }
         public List<Contact> UpdateAllContacts()
         {
@@ -375,7 +384,7 @@ namespace DataControls
         const string EnrollerId = "new_enrollerid";
         const string EnrollerWebAlias = "new_enrollerwebalias";
         const string SkypeID = "new_skypeid";
-        const string WebAlias = "new_webalias";
+        const string WebAlias = "nickname";
         const string FrezzorCustomerType = "new_type";
         const string FrezzorStatus = "new_status";
         const string ContactGUID = "contactid";
