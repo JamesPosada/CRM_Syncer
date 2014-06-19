@@ -85,7 +85,7 @@ namespace DataAccess
         {
             ApiRequest = new GetCustomersRequest()
             {
-                BatchSize = 50000,
+                BatchSize = 100,
                 CustomerStatuses = new int[] { 1 },
                 GreaterThanModifiedDate = modifiedDate
             };
@@ -120,23 +120,24 @@ namespace DataAccess
                     ExigoContact exigoContact = new ExigoContact()
                     {
                         ExigoID = resp.CustomerID,
-                        Gender = (ExigoGenderType)resp.Gender,
-                        FirstName = resp.FirstName,
-                        LastName = resp.LastName,
+                        
+                        FirstName = resp.FirstName.Trim(),
+                        LastName = resp.LastName.Trim(),
+                        Gender = ExigoGenderType.Unknown,
                         LastModified = resp.ModifiedDate,
                         StartDate = resp.CreatedDate,
                         Birthdate = resp.BirthDate,
                         CrmGuid = resp.Field8,
                         CustomerType = (ExigoCustomerType)resp.CustomerType,
                         Status = (ExigoStatusTypes)resp.CustomerStatus,
-                        Email = resp.Email,
+                        Email = resp.Email.Trim(),
                         LangID = resp.LanguageID,
                         Rank = resp.RankID,
-                        StreetAddress = resp.MainAddress1,
-                        StreetAddress_Line2 = resp.MainAddress2,
-                        City = resp.MainCity,
-                        State = resp.MainState,
-                        Zip = resp.MainZip,
+                        StreetAddress = resp.MainAddress1.Trim(),
+                        StreetAddress_Line2 = resp.MainAddress2.Trim(),
+                        City = resp.MainCity.Trim(),
+                        State = resp.MainState.Trim(),
+                        Zip = resp.MainZip.Trim(),
                         Country = Utilities.ConvertCountryForCRM(resp.MainCountry),
                         EnrollerID = resp.EnrollerID
 
@@ -150,9 +151,13 @@ namespace DataAccess
                     //{
                     //    exigoContact.EnrollerWebAlias = Utilities.GetWebAlias(resp.EnrollerID, ApiContext);
                     //}
-                    exigoContact.MobilePhone = (string.IsNullOrWhiteSpace(resp.MobilePhone)) ? string.Empty : resp.MobilePhone.FormatPhoneCRM(exigoContact.Country);
-                    exigoContact.BusinessPhone = (string.IsNullOrWhiteSpace(resp.Phone)) ? string.Empty : resp.Phone.FormatPhoneCRM(exigoContact.Country);
-                    exigoContact.HomePhone = (string.IsNullOrWhiteSpace(resp.Phone2)) ? string.Empty : resp.Phone2.FormatPhoneCRM(exigoContact.Country);
+                    ExigoGenderType gender;//
+                    if (Enum.TryParse(resp.Gender.ToString(), out gender))
+                    { exigoContact.Gender = gender; };
+
+                    exigoContact.MobilePhone = (string.IsNullOrWhiteSpace(resp.MobilePhone)) ? string.Empty : resp.MobilePhone.FormatPhoneCRM(exigoContact.Country).Trim();
+                    exigoContact.BusinessPhone = (string.IsNullOrWhiteSpace(resp.Phone)) ? string.Empty : resp.Phone.FormatPhoneCRM(exigoContact.Country).Trim();
+                    exigoContact.HomePhone = (string.IsNullOrWhiteSpace(resp.Phone2)) ? string.Empty : resp.Phone2.FormatPhoneCRM(exigoContact.Country).Trim();
                     ContactList.Add(exigoContact);
                 }
                 ContactList.AsParallel().Where(c=>c.CustomerType == ExigoCustomerType.Independant).AsParallel().ForAll(AssignAlias);

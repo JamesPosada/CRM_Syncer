@@ -28,10 +28,24 @@ namespace DataControls
         }
         private List<ExigoContact> _accountsToUpdate;
 
+        protected List<ExigoContact> ExigoRemoveGUIDs
+        {
+            get
+            {
+                if (_exigoRemoveGUIDs == null)
+                {
+                    _exigoRemoveGUIDs = new List<ExigoContact>();
+                }
+                return _exigoRemoveGUIDs;
+            }
+        }
+        private List<ExigoContact> _exigoRemoveGUIDs;
+
         private ExigoGetCustomers exigoContext;
         private Updater updater;
 
         protected List<Contact> crmAccounts;
+        
        
 
         public UpdateModifiedAccounts()
@@ -50,7 +64,14 @@ namespace DataControls
         {
             crmAccounts.Clear();
             AccountsToUpdate.AsParallel().ForAll(PopulateCrmAccounts);
-            Parallel.ForEach<Contact>(crmAccounts, RunThroughUpdater);
+            //Parallel.ForEach<Contact>(crmAccounts, RunThroughUpdater);
+            ExigoRemoveGUIDs.ForEach(a => AccountsToUpdate.Remove(a));
+            foreach (var c in crmAccounts)
+            {
+                RunThroughUpdater(c);
+            }
+            updater.UpdateAllContacts();
+
         }
 
 
@@ -59,12 +80,31 @@ namespace DataControls
             crmAccounts.Clear();
             List<ExigoContact> accounts = exigoContext.GetAccountsGreaterThanModfiedOn(Date);
             accounts.AsParallel().ForAll(PopulateCrmAccounts);
-            Parallel.ForEach<Contact>(crmAccounts, RunThroughUpdater);
+            ExigoRemoveGUIDs.ForEach(a => AccountsToUpdate.Remove(a));
+            foreach (var c in crmAccounts)
+            {
+                RunThroughUpdater(c);
+            }            
+            updater.UpdateAllContacts();
+
+
+            
+            
         }
 
         private void PopulateCrmAccounts(ExigoContact Econtact)
         {
-            crmAccounts.Add(base.SearchForContact(Econtact.GetGUID()));
+            try
+            {
+              crmAccounts.Add(base.SearchForContact(Econtact.GetGUID()));
+              
+            }
+            catch
+            {
+                ExigoRemoveGUIDs.Add(Econtact);
+            }
+
+            
         }
 
         private void RunThroughUpdater(Contact crmContact)
@@ -76,6 +116,8 @@ namespace DataControls
             }
         }
         
+        
+
 
     }
 }

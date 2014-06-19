@@ -198,14 +198,19 @@ namespace DataControls
             }
 
             /// only update rank if rank in crm is less than current rank
+            /// CRM only takes a rank of 1 or above, exigo ranks start a 0
+            /// to avoid throwing exception must not use rank of 0
             if (crmContact.New_Rank == null)
             {
-                _currentAccount.New_Rank = exigoContact.Rank;
-                UpdateNullField(guid, Rank, exigoContact.Rank.ToString(), exigoContact.ExigoID);
+                if (exigoContact.Rank > 0)
+                {
+                    _currentAccount.New_Rank = exigoContact.Rank;
+                    UpdateNullField(guid, Rank, exigoContact.Rank.ToString(), exigoContact.ExigoID);
+                }
             }
             else
             {
-                if (crmContact.New_Rank < exigoContact.Rank)
+                if (exigoContact.Rank > 0 && crmContact.New_Rank < exigoContact.Rank)
                 {
                     if (!intFieldMatch(exigoContact.Rank, (int)crmContact.New_Rank, guid, Rank, exigoContact.ExigoID))
                     {

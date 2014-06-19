@@ -99,9 +99,9 @@ namespace DataLogger
         private string SetLog(string logName, string headers)
         {
 
-            if (!File.Exists(Settings.LogFileSettings.Path + logName + ".csv"))
+            if (!File.Exists(Settings.LogFileSettings.Path +"\\" + DateTime.Now.Year+ "_"+ DateTime.Now.Month + logName + ".csv"))
             {
-                CreateFile(Settings.LogFileSettings.Path + logName + ".csv", headers);
+                CreateFile(Settings.LogFileSettings.Path + "\\" + DateTime.Now.Year+ "_"+ DateTime.Now.Month + logName + ".csv", headers);
             }
           
             Logs.Add(logName, string.Empty);
