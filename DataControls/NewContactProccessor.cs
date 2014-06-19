@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Models;
 using XrmV2;
 using DataLogger;
+using ExigoDesktop.Exigo.WebService;
 
 
 namespace DataControls
@@ -39,6 +40,11 @@ namespace DataControls
         }
         private List<Contact> _crmWithExigoIDs;
 
+
+        /// <summary>
+        /// Holds both accounts that have not been matched together
+        /// and need accounts created.
+        /// </summary>
         protected List<ExigoContact> NoMatchInCRMFound
         {
             get
@@ -52,6 +58,10 @@ namespace DataControls
         }
         private List<ExigoContact> _noMatchInCRMFound;
 
+
+        /// <summary>
+        /// Holds both accounts that have been matched together by ID number
+        /// </summary>
         protected Dictionary<ExigoContact, Contact> MatchInCRMFoundByID
         {
             get
@@ -66,6 +76,9 @@ namespace DataControls
         private Dictionary<ExigoContact, Contact> _matchInCRMFoundByID;
 
 
+       /// <summary>
+       /// Holds both accounts that have been matched together by info
+       /// </summary>
         protected Dictionary<ExigoContact, Contact> MatchInCRMFoundByInfo
         {
             get
@@ -78,10 +91,10 @@ namespace DataControls
             }
         }
         private Dictionary<ExigoContact, Contact> _matchInCRMFoundByInfo;
-        
-
+       
         private DataAccess.ExigoGetCustomers exigoContext;
 
+        private Updater updater = new Updater();
 
         #endregion
 
@@ -100,7 +113,7 @@ namespace DataControls
         public NewContactProccessor(DataAccess.ExigoGetCustomers econtext)
         {
             exigoContext = econtext;
-            Settings.Logging.logger.SetLogName(Settings.Logging.AccountCheckingLog.Name, Settings.Logging.AccountCheckingLog.Headers);
+            Settings.Logging.logger.SetLogName(Settings.Logging.AccountCheckingLog.Name, Settings.Logging.AccountCheckingLog.Headers);           
             _crmWithExigoIDs = base.FREZZORContactsinCRM.ToList();
         }
         #endregion
@@ -111,6 +124,7 @@ namespace DataControls
         {
             _uncheckedAccounts.ForEach(CheckCrmforContact);            
             _uncheckedAccounts.Clear();
+            MatchInCRMFoundByID.Concat(MatchInCRMFoundByInfo).AsParallel().ForAll(RunThroughUpdater);
             
         }
 
@@ -166,7 +180,15 @@ namespace DataControls
             NoMatchInCRMFound.Add(exigoContact);
             Settings.Logging.logger.LogData(Settings.Logging.AccountCheckingLog.Name, new List<string>() { exigoContact.ExigoID.ToString(), "", "False", "", exigoContact.FirstName, exigoContact.LastName, exigoContact.Email, "", "","" });
         }
+
+        private void RunThroughUpdater(KeyValuePair<ExigoContact, Contact> dictionaryEntry)
+        {
+            updater.CheckForUpdate(dictionaryEntry.Key, dictionaryEntry.Value);
+        }
         
+
+
+
         #endregion
 
         

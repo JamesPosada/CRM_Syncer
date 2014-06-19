@@ -28,6 +28,15 @@ namespace Tests
             
         
         }
+
+
+    [TestMethod]
+        public void TestCrmQueryByModifedDate()
+        {
+            CrmQueries crm = new CrmQueries();
+            Assert.IsTrue(crm.GetLastExigoModifedDate() > DateTime.Now.Subtract(TimeSpan.FromDays(7)));
+
+        }
     }
 
 

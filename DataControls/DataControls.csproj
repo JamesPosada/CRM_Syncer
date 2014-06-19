@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="AppCode\Settings.cs" />
     <Compile Include="NewContactProccessor.cs" />
+    <Compile Include="UpdateModifiedAccounts.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UpdateExigoGuids.cs" />

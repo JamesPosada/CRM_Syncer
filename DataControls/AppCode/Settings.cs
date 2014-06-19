@@ -56,6 +56,23 @@ namespace DataControls
 
                 };
             }
+
+            public static class ExigowithExistingGuiDUpdates
+            {
+                public static string Name = "Exigo_ExistingGuidUpdateLog";
+                public static List<string> Headers = new List<string>()
+                {
+                    "Crm GUID",
+                    "Exigo ID",
+                    "Crm ExigoID",
+                    "Exigo Fname",
+                    "Exigo Lname",
+                    "Exigo Email",
+                    "Crm Fname",
+                    "Crm Lname",
+                    "Crm Email"
+                };
+            }
         }
     }
 }

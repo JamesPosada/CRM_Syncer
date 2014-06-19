@@ -16,10 +16,13 @@ namespace ConsoleTests
 
 
 
-            ExigoGetCustomers exigo = new ExigoGetCustomers();
-            DataControls.NewContactProccessor proccessor = new DataControls.NewContactProccessor(exigo);
-            proccessor.SetListToCheck(exigo.GetAllAccountsWithoutCrmGUIDs());
-            proccessor.ProcessList();
+            //ExigoGetCustomers exigo = new ExigoGetCustomers();
+            //DataControls.NewContactProccessor proccessor = new DataControls.NewContactProccessor(exigo);
+            //proccessor.SetListToCheck(exigo.GetAllAccountsWithoutCrmGUIDs());
+            //proccessor.ProcessList();
+            DataControls.UpdateModifiedAccounts up = new DataControls.UpdateModifiedAccounts();
+            up.IncrementalUpdate();
+
             DataControls.Settings.Logging.logger.WriteAllLogs();
 
 

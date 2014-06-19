@@ -135,6 +135,13 @@ namespace DataAccess
                 .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
         }
 
+
+        public Contact SearchForContact(Guid id)
+        {
+            return XrmConnection.GetOrganizationService()
+                .Retrieve(Contact, id, DefaultColumnSet).ToEntity<Contact>();
+        }
+
         /// <summary>
         /// Searches CRM for contacts that match exactly First Name, Last Name and Email
         /// </summary>
@@ -155,6 +162,24 @@ namespace DataAccess
             return XrmConnection.GetOrganizationService()
                 .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
         }
+
+        public DateTime GetLastExigoModifedDate()
+        {
+            QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = DefaultColumnSet };
+            OrderExpression order = new OrderExpression(FrezzorLastModDate, OrderType.Descending);
+            ConditionExpression condition = new ConditionExpression(FrezzorID, ConditionOperator.NotNull);
+            SearchQuery.Criteria.AddCondition(condition);
+            SearchQuery.Orders.Add(order);
+            SearchQuery.TopCount = 1;
+
+            var d = XrmConnection.GetOrganizationService()
+                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>().FirstOrDefault().new_ExigoLastModifiedDate;
+            return (DateTime)d;
+
+        }
+
+        
+
 
         #endregion Public Searches
 

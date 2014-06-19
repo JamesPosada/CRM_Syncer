@@ -160,8 +160,7 @@ namespace DataAccess
             }
         }
 
-
-
+       
         #endregion Private Methods
 
         #region Delegates
@@ -205,8 +204,9 @@ namespace DataAccess
 
                 catch { }
             }
-        }   
-        
+        }
+
+       
 
         #endregion Delegates
 
@@ -358,7 +358,6 @@ namespace DataAccess
             }
             return ContactList.FirstOrDefault();
         }
-
 
         #endregion Public Methods
     }

@@ -9,7 +9,7 @@ using ExigoDesktop.Exigo.WebService;
 
 namespace DataControls
 {
-    public class UpdateExigoGuids
+    public class UpdateExigoGuids : ExigoGetCustomers
     {
         #region Properties
         private List<ExigoContact> WithoutGuid { get; set; }
@@ -23,18 +23,16 @@ namespace DataControls
 
         #endregion Properties
 
-        public UpdateExigoGuids() 
+        private UpdateExigoGuids() 
         {
-             WithoutGuid = new ExigoGetCustomers().GetAllAccountsWithoutCrmGUIDs();
+             WithoutGuid = base.GetAllAccountsWithoutCrmGUIDs();
              CrmContactsWithFrezzorIDs = new CrmQueries().FREZZORContactsinCRM.ToList();
-             NumberOfContactsUpdated = 0;
+            
         }
 
 
-       public void ExecuteUpdate()
+       private void ExecuteUpdate()
         {
-           
-
            foreach(var crmContact in CrmContactsWithFrezzorIDs)
            {
                if(WithoutGuid.Where(c=>c.ExigoID == crmContact.new_FREZZORID).FirstOrDefault() !=null)
@@ -46,10 +44,6 @@ namespace DataControls
                            CustomerID = exigoContact.ExigoID,
                            Field8 = exigoContact.CrmGuid
                        });
-                   if(response.Result.Status == ResultStatus.Success)
-                   { 
-                       ++NumberOfContactsUpdated;
-                   }
                }
            }        
         }

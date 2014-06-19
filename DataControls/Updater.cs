@@ -275,12 +275,7 @@ namespace DataControls
 
         }
 
-        public void VerifyAccountNotInExigo(ExigoContact exigoContact)
-        {
-
-        }
-
-
+        
         #endregion
 
 
