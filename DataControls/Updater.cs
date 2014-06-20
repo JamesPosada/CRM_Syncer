@@ -18,7 +18,7 @@ namespace DataControls
         private bool _currentAccountIsModified;
         private Contact _currentAccount;
         private List<Contact> _changedAccounts;
-        private List<Contact> _accountsToCreate;
+        //private List<Contact> _accountsToCreate;
 
 
 
@@ -30,7 +30,7 @@ namespace DataControls
             Settings.Logging.logger.SetLogName(Settings.Logging.AccountsUpdateLog.Name, Settings.Logging.AccountsUpdateLog.Headers);
 
             _changedAccounts = new List<Contact>();
-            _accountsToCreate = new List<Contact>();
+            //_accountsToCreate = new List<Contact>();
 
         }
 

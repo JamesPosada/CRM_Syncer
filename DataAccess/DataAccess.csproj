@@ -32,19 +32,19 @@
   <ItemGroup>
     <Reference Include="JLPeXigoDesktop, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Libs\Sites\ExigoDll\JLPeXigoDesktop.dll</HintPath>
+      <HintPath>\\HOMER\Raid\SVN\workrepo\ExigoDll\JLPeXigoDesktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Crm.Sdk.Proxy">
-      <HintPath>D:\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
+      <HintPath>\\HOMER\homer share\Developments_Design\Code Repository\CRM\CRMSDK\SDK\Bin\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xrm.Client">
-      <HintPath>D:\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Xrm.Client.dll</HintPath>
+      <HintPath>\\HOMER\homer share\Developments_Design\Code Repository\CRM\CRMSDK\SDK\Bin\Microsoft.Xrm.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xrm.Client.CodeGeneration">
-      <HintPath>D:\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Xrm.Client.CodeGeneration.dll</HintPath>
+      <HintPath>\\HOMER\homer share\Developments_Design\Code Repository\CRM\CRMSDK\SDK\Bin\Microsoft.Xrm.Client.CodeGeneration.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk">
-      <HintPath>D:\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Xrm.Sdk.dll</HintPath>
+      <HintPath>\\HOMER\homer share\Developments_Design\Code Repository\CRM\CRMSDK\SDK\Bin\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

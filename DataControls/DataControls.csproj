@@ -32,15 +32,15 @@
   <ItemGroup>
     <Reference Include="JLPeXigoDesktop, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Libs\Sites\ExigoDll\JLPeXigoDesktop.dll</HintPath>
+      <HintPath>\\HOMER\Raid\SVN\workrepo\ExigoDll\JLPeXigoDesktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xrm.Client, Version=5.0.9689.2166, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Xrm.Client.dll</HintPath>
+      <HintPath>\\HOMER\homer share\Developments_Design\Code Repository\CRM\CRMSDK\SDK\Bin\Microsoft.Xrm.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Xrm.Sdk.dll</HintPath>
+      <HintPath>\\HOMER\homer share\Developments_Design\Code Repository\CRM\CRMSDK\SDK\Bin\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppCode\Settings.cs" />
+    <Compile Include="NewAccountsControl.cs" />
     <Compile Include="NewContactProccessor.cs" />
     <Compile Include="UpdateModifiedAccounts.cs" />
     <Compile Include="Updater.cs" />
