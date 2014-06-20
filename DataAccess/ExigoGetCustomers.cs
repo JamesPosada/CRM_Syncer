@@ -85,7 +85,7 @@ namespace DataAccess
         {
             ApiRequest = new GetCustomersRequest()
             {
-                BatchSize = 100,
+                BatchSize = 50000,
                 CustomerStatuses = new int[] { 1 },
                 GreaterThanModifiedDate = modifiedDate
             };
@@ -357,6 +357,11 @@ namespace DataAccess
             return ContactList.FirstOrDefault();
         }
 
+        public UpdateCustomerResponse UpdateSingleCustomer(UpdateCustomerRequest req)
+        {
+            return ApiContext.UpdateCustomer(req);
+
+        }
         #endregion Public Methods
     }
 }

@@ -22,21 +22,7 @@ namespace DataLogger
         #region Public Methods
         public void WriteAllLogs()
         {
-            //List<string> LogNames = new List<string>();
-
-            //foreach (var log in Logs)
-            //{
-
-            //    var file = File.AppendText(Settings.LogFileSettings.Path + log.Key + ".csv");
-            //    file.Write(log.Value);
-            //    file.Close();
-            //    LogNames.Add(log.Key);
-            //}
-            //Logs.Clear();
-            //foreach (string name in LogNames)
-            //{
-            //    Logs.Add(name, string.Empty);
-            //}
+            
             base.wrtiteLogs();
 
         }
@@ -81,8 +67,7 @@ namespace DataLogger
             var logName = base.GetLogKey(LogName);
             
             base.commitEntry(new KeyValuePair<string, string>(logName, ParseContent(LogName, content)));
-            //Logs.Remove(log.Key);
-            //Logs.Add(log.Key, logdata);
+           
         }
 
         #endregion

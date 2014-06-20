@@ -9,6 +9,10 @@ using XrmV2;
 
 namespace DataControls
 {
+    /// <summary>
+    ///  Run this Class to do all updates, after doing all updates 
+    ///  
+    /// </summary>
     public class UpdateModifiedAccounts : CrmQueries
     {
 
@@ -53,7 +57,7 @@ namespace DataControls
             exigoContext = new ExigoGetCustomers();
             updater = new Updater();
             crmAccounts = new List<Contact>();
-            LastCrmModDate = base.GetLastExigoModifedDate().Subtract(TimeSpan.FromDays(2));
+            LastCrmModDate = base.GetLastExigoModifedDate().Subtract(TimeSpan.FromDays(3000));
             _accountsToUpdate = exigoContext.GetAccountsGreaterThanModfiedOn(LastCrmModDate).Where(e => !string.IsNullOrEmpty(e.CrmGuid)).ToList();
             
         }
@@ -64,8 +68,8 @@ namespace DataControls
         {
             crmAccounts.Clear();
             AccountsToUpdate.AsParallel().ForAll(PopulateCrmAccounts);
-            Parallel.ForEach<Contact>(crmAccounts, RunThroughUpdater);
-            //ExigoRemoveGUIDs.ForEach(a => AccountsToUpdate.Remove(a));
+            ExigoRemoveGUIDs.ForEach(a => AccountsToUpdate.Remove(a));
+            RemoveGuids();
             //foreach (var c in crmAccounts)
             //{
             //    RunThroughUpdater(c);
@@ -116,7 +120,16 @@ namespace DataControls
             }
         }
         
-        
+        private void RemoveGuids()
+        {
+            ExigoDesktop.Exigo.WebService.UpdateCustomerRequest req = new ExigoDesktop.Exigo.WebService.UpdateCustomerRequest(){Field8 = string.Empty};
+            
+            foreach(var c in ExigoRemoveGUIDs)
+            {
+                req.CustomerID = c.ExigoID;
+                exigoContext.UpdateSingleCustomer(req);
+            }
+        }
 
 
     }

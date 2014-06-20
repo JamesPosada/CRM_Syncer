@@ -251,14 +251,14 @@ namespace DataControls
             }
             if (exigoContact.CustomerType == ExigoCustomerType.Independant)
             {
-                if (!stringFieldMatch(exigoContact.WebAlias, crmContact.New_WebAlias, guid, WebAlias, exigoContact.ExigoID))
+                if (!stringFieldMatch(exigoContact.WebAlias, crmContact.NickName, guid, WebAlias, exigoContact.ExigoID))
                 {
                     _currentAccount.NickName = exigoContact.WebAlias;
                 }
             }
 
             /// update enroller webalias if not distributor and enroller has webalias
-            if (!string.IsNullOrEmpty(exigoContact.EnrollerWebAlias) && exigoContact.CustomerType != ExigoCustomerType.Independant)
+            if (exigoContact.CustomerType != ExigoCustomerType.Independant && !string.IsNullOrEmpty(exigoContact.EnrollerWebAlias))
             {
                 if (!stringFieldMatch(exigoContact.EnrollerWebAlias, (string)crmContact.new_EnrollerWebAlias, guid, EnrollerWebAlias, exigoContact.ExigoID))
                 {
