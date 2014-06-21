@@ -10,7 +10,10 @@ namespace DataLogger
 {
     public class Logger : LoggerBase
     {
-      
+        /// <summary>
+        /// TODO: Add function to read headers from first line
+        /// of log if log file exist
+        /// </summary>
         private Dictionary<string, int> _headerCount;
 
         public Logger()
@@ -22,7 +25,7 @@ namespace DataLogger
         #region Public Methods
         public void WriteAllLogs()
         {
-            
+
             base.wrtiteLogs();
 
         }
@@ -34,7 +37,7 @@ namespace DataLogger
             {
                 throw new Exception("No Commas allowed in Log");
             }
-            if ( base.GetLogKey(logName) !="Key Not Found")
+            if (base.GetLogKey(logName) != "Key Not Found")
             {
                 return logName;
             }
@@ -62,12 +65,12 @@ namespace DataLogger
             if (base.GetLogKey(LogName) == "Key Not Found")
             {
                 throw new Exception("No such log, please use SetLog method");
-               
+
             }
             var logName = base.GetLogKey(LogName);
-            
+
             base.commitEntry(new KeyValuePair<string, string>(logName, ParseContent(LogName, content)));
-           
+
         }
 
         #endregion
@@ -98,7 +101,6 @@ namespace DataLogger
                     _headerCount.Where(k => k.Key == logName).FirstOrDefault().Value + " values."
                 );
             }
-
             string logLine = string.Empty;
             foreach (string entry in content)
             {
@@ -110,8 +112,6 @@ namespace DataLogger
         #endregion
 
     }
-
-
     public class LoggerBase
     {
         private bool Locked = false;
@@ -127,12 +127,12 @@ namespace DataLogger
             Wait:
                 Thread.SpinWait(15);
 
-                if( Locked == true)
+                if (Locked == true)
                 {
                     goto Wait;
                 }
             }
-            
+
             lock (_logs)
             {
                 Locked = true;
@@ -169,7 +169,6 @@ namespace DataLogger
             Locked = false;
             return "Key Not Found";
         }
-
 
         internal void AddLog(string logName)
         {

@@ -20,9 +20,10 @@ namespace ConsoleTests
             //DataControls.NewContactProccessor proccessor = new DataControls.NewContactProccessor(exigo);
             //proccessor.SetListToCheck(exigo.GetAllAccountsWithoutCrmGUIDs());
             //proccessor.ProcessList();
-            DataControls.UpdateModifiedAccounts up = new DataControls.UpdateModifiedAccounts();
-            up.IncrementalUpdate();
-
+            //DataControls.UpdateModifiedAccounts up = new DataControls.UpdateModifiedAccounts();
+            //up.IncrementalUpdate();
+            DataControls.NewAccountsControl nac = new DataControls.NewAccountsControl();
+            nac.CreateNewAccounts();
             DataControls.Settings.Logging.logger.WriteAllLogs();
 
 

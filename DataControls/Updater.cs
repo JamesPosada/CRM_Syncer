@@ -40,7 +40,10 @@ namespace DataControls
             var guid = crmContact.Id.ToString();
             _currentAccountIsModified = false;
             _currentAccount = new Contact();
-            _currentAccount.Id = crmContact.Id;
+            if (crmContact != null)
+            {
+                _currentAccount.Id = crmContact.Id;
+            }
             if (!stringFieldMatch(exigoContact.FirstName, crmContact.FirstName, guid, FirstName, exigoContact.ExigoID))
             {
                 _currentAccount.FirstName = exigoContact.FirstName;
@@ -289,6 +292,13 @@ namespace DataControls
 
         }
 
+        public List<Contact> RetreiveAccounts()
+        {
+            var temp = _changedAccounts;
+            _changedAccounts.Clear();
+            return temp;
+
+        }
         
         #endregion
 
@@ -305,8 +315,6 @@ namespace DataControls
                     crmContext.Update(contact);
                 }
             }
-
-
         }
 
         #endregion Private Methods

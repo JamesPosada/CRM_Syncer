@@ -114,13 +114,11 @@ namespace DataAccess
         {
             if (ApiResponse.RecordCount > 0)
             {
-
                 foreach (var resp in ApiResponse.Customers)
                 {
                     ExigoContact exigoContact = new ExigoContact()
                     {
                         ExigoID = resp.CustomerID,
-                        
                         FirstName = resp.FirstName.Trim(),
                         LastName = resp.LastName.Trim(),
                         Gender = ExigoGenderType.Unknown,
@@ -140,14 +138,12 @@ namespace DataAccess
                         Zip = resp.MainZip.Trim(),
                         Country = Utilities.ConvertCountryForCRM(resp.MainCountry),
                         EnrollerID = resp.EnrollerID
-
-
-                    };
-                  
+                    };                  
                     ExigoGenderType gender;
                     if (Enum.TryParse(resp.Gender.ToString(), out gender))
-                    { exigoContact.Gender = gender; };
-
+                    {
+                        exigoContact.Gender = gender; 
+                    };
                     exigoContact.MobilePhone = (string.IsNullOrWhiteSpace(resp.MobilePhone)) ? string.Empty : resp.MobilePhone.FormatPhoneCRM(exigoContact.Country).Trim();
                     exigoContact.BusinessPhone = (string.IsNullOrWhiteSpace(resp.Phone)) ? string.Empty : resp.Phone.FormatPhoneCRM(exigoContact.Country).Trim();
                     exigoContact.HomePhone = (string.IsNullOrWhiteSpace(resp.Phone2)) ? string.Empty : resp.Phone2.FormatPhoneCRM(exigoContact.Country).Trim();
@@ -162,9 +158,7 @@ namespace DataAccess
         #endregion Private Methods
 
         #region Delegates
-        delegate void GetAlias(ExigoContact contact);
-
-
+       // delegate void GetAlias(ExigoContact contact);
         private void AssignAlias(ExigoContact contact)
         {
             if (contact.CustomerType == ExigoCustomerType.Independant)
@@ -203,12 +197,7 @@ namespace DataAccess
                 catch { }
             }
         }
-
-       
-
         #endregion Delegates
-
-
 
         #region Public Methods
         /// <summary>
@@ -312,9 +301,6 @@ namespace DataAccess
             return ContactList;
 
         }
-
-
-
 
 
         /// <summary>

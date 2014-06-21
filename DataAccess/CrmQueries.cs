@@ -178,7 +178,19 @@ namespace DataAccess
 
         }
 
-        
+        public int GetLastIDNumber()
+        {
+            QueryExpression qExpr = new QueryExpression(Contact) { ColumnSet = new ColumnSet(FrezzorID) };
+            OrderExpression orderExpr = new OrderExpression(FrezzorID, OrderType.Descending);
+            ConditionExpression condition = new ConditionExpression(FrezzorID, ConditionOperator.NotNull);
+           // ConditionExpression condition2 = new ConditionExpression(EnrollerId, ConditionOperator.NotNull);
+            qExpr.Criteria.AddCondition(condition);
+            //qExpr.Criteria.AddCondition(condition2);
+            qExpr.Orders.Add(orderExpr);
+            qExpr.TopCount = 1;
+            return (int)XrmConnection.GetOrganizationService()
+                .RetrieveMultiple(qExpr).Entities.Cast<Contact>().FirstOrDefault().new_FREZZORID;
+        }
 
 
         #endregion Public Searches

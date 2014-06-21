@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    public class Utilities
+    public static class Utilities
     {
         public static Models.ExigoGenderType ConvertGender(string gender)
         {
