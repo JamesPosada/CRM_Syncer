@@ -35,12 +35,18 @@ namespace DataControls
         }
 
         #region Public Methods
+        /// <summary>
+        /// Comapares an Exigo Account and a CRM Account if account has changed returns CRM Account with only
+        /// updates made on it.
+        /// </summary>
+        /// <param name="exigoContact"></param>
+        /// <param name="crmContact"></param>
         public void CheckForUpdate(ExigoContact exigoContact, Contact crmContact)
         {
             var guid = crmContact.Id.ToString();
             _currentAccountIsModified = false;
             _currentAccount = new Contact();
-            if (crmContact != null)
+            if (crmContact != null && crmContact.Id.ToString() != "00000000-0000-0000-0000-000000000000")
             {
                 _currentAccount.Id = crmContact.Id;
             }
@@ -294,7 +300,7 @@ namespace DataControls
 
         public List<Contact> RetreiveAccounts()
         {
-            var temp = _changedAccounts;
+            List<Contact> temp = _changedAccounts.ToList();
             _changedAccounts.Clear();
             return temp;
 

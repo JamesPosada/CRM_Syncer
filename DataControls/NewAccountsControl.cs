@@ -19,8 +19,7 @@ namespace DataControls
             {
                 if (_newExgioAccounts == null)
                 {
-                    _newExgioAccounts = new List<ExigoContact>();
-                    
+                    _newExgioAccounts = new List<ExigoContact>();                    
                 }
                 return _newExgioAccounts;
             }
@@ -51,9 +50,7 @@ namespace DataControls
                 return _accountsFoundInCrm;
             }
         }
-        private Dictionary<ExigoContact, Contact> _accountsFoundInCrm;
-
-        
+        private Dictionary<ExigoContact, Contact> _accountsFoundInCrm;        
 
         protected CrmQueries CrmQ
         {
@@ -73,7 +70,7 @@ namespace DataControls
         private XrmV2.Context _crmContext;
         #endregion
 
-        #region Constructors
+       #region Constructors
        public NewAccountsControl()
         {
             updater = new Updater();
@@ -97,9 +94,8 @@ namespace DataControls
         
         private void GetNewAccounts()
         {
-           
-            var contacts = ExigoCustomersApi.GetAccountsGreaterThanID(CrmQ.GetLastIDNumber()).Where(c=>string.IsNullOrEmpty(c.CrmGuid));
-            
+            //var contacts = ExigoCustomersApi.GetAccountsGreaterThanID(CrmQ.GetLastIDNumber()).Where(c=>string.IsNullOrEmpty(c.CrmGuid));            
+            var contacts = ExigoCustomersApi.GetAllAccountsWithoutCrmGUIDs();
             contacts.AsParallel().ForAll(FindAccountInCRM);
             _newCrmAccountsToSubmit = new List<Contact>();
            
@@ -124,34 +120,30 @@ namespace DataControls
         }
 
         private void CreateNewCrmAccount(ExigoContact eContact)
-        {
-            
-          // Contact cContact = new Contact();
-           //updater.CheckForUpdate(eContact, cContact);
-
+        {          
+          Contact cContact = new Contact();
+          updater.CheckForUpdate(eContact, cContact);
         }
 
         private void SubmitToCrm(Contact cContact)
         {
-            //var guid = _crmContext.Create(cContact);
-           //UpdateExigo((int)cContact.new_FREZZORID, guid);
-            
+           var guid = _crmContext.Create(cContact);
+           UpdateExigo((int)cContact.new_FREZZORID, guid);            
         }
 
         private void SendKeyValueToExigo(KeyValuePair<ExigoContact,Contact> entry)
         {
-            //UpdateExigo(entry.Key.ExigoID, entry.Value.Id);
-            //updater.CheckForUpdate(entry.Key, entry.Value);
+            UpdateExigo(entry.Key.ExigoID, entry.Value.Id);
+            updater.CheckForUpdate(entry.Key, entry.Value);
         }
         
         private void UpdateExigo(int ExigoID, Guid CrmID)
         {
-            //ExigoApiContext.CreateWebServiceContext().UpdateCustomer(new ExigoDesktop.Exigo.WebService.UpdateCustomerRequest()
-            //{
-            //    CustomerID = ExigoID,
-            //    Field8 = CrmID.ToString()
-            //});
-
+            ExigoApiContext.CreateWebServiceContext().UpdateCustomer(new ExigoDesktop.Exigo.WebService.UpdateCustomerRequest()
+            {
+                CustomerID = ExigoID,
+                Field8 = CrmID.ToString()
+            });
         }
 
 

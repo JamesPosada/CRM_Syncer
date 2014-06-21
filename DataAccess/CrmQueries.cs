@@ -123,17 +123,17 @@ namespace DataAccess
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
         /// <returns>IEnumberable of Type XrmV2.Contact</returns>
-        public IEnumerable<Contact> SearchForContact(string firstName, string lastName)
-        {
-            QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = DefaultColumnSet };
-            ConditionExpression condition = new ConditionExpression(LastName, ConditionOperator.Equal, lastName);
-            ConditionExpression condition2 = new ConditionExpression(FirstName, ConditionOperator.Equal, firstName);
-            SearchQuery.Criteria.AddCondition(condition);
-            SearchQuery.Criteria.AddCondition(condition2);
+        //public IEnumerable<Contact> SearchForContact(string firstName, string lastName)
+        //{
+        //    QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = DefaultColumnSet };
+        //    ConditionExpression condition = new ConditionExpression(LastName, ConditionOperator.Equal, lastName);
+        //    ConditionExpression condition2 = new ConditionExpression(FirstName, ConditionOperator.Equal, firstName);
+        //    SearchQuery.Criteria.AddCondition(condition);
+        //    SearchQuery.Criteria.AddCondition(condition2);
 
-            return XrmConnection.GetOrganizationService()
-                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
-        }
+        //    return XrmConnection.GetOrganizationService()
+        //        .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
+        //}
 
 
         public Contact SearchForContact(Guid id)
@@ -155,9 +155,11 @@ namespace DataAccess
             ConditionExpression condition = new ConditionExpression(LastName, ConditionOperator.Equal, lastName);
             ConditionExpression condition2 = new ConditionExpression(FirstName, ConditionOperator.Equal, firstName);
             ConditionExpression condition3 = new ConditionExpression(Email, ConditionOperator.Equal, email);
+            
 
             SearchQuery.Criteria.AddCondition(condition);
             SearchQuery.Criteria.AddCondition(condition2);
+            SearchQuery.Criteria.AddCondition(condition3);
 
             return XrmConnection.GetOrganizationService()
                 .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
