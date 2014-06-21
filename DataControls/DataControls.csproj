@@ -57,6 +57,7 @@
     <Compile Include="AppCode\Settings.cs" />
     <Compile Include="NewAccountsControl.cs" />
     <Compile Include="NewContactProccessor.cs" />
+    <Compile Include="RemoveTerminatedAccounts.cs" />
     <Compile Include="UpdateModifiedAccounts.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

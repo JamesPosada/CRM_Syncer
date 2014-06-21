@@ -102,6 +102,18 @@ namespace DataAccess
             ApiResponse = new GetCustomersResponse();
         }
 
+        private void TerminatedAccounts()
+        {
+            ApiRequest = new GetCustomersRequest()
+            {
+                BatchSize = 50000,
+                CustomerStatuses = new int[] { 2 },
+                GreaterThanCustomerID = 5
+            };
+            ApiResponse = new GetCustomersResponse();
+
+        }
+
         #endregion ApiRequests Properties
 
 
@@ -272,6 +284,41 @@ namespace DataAccess
             }
             return ContactList;
 
+        }
+
+        /// <summary>
+        /// Gets all Terminated Accounts (max of 50000) that have CRM GUIDS
+        /// </summary>
+        /// <param name="modifiedDate">a datetime</param>
+        /// <returns>A list of ExigoContacts</returns>
+        public List<ExigoContact> GetTerminatedAccounts()
+        {
+            if (LastMethodUsed == "Termaninated")
+            {
+                return ContactList;
+            }            
+            ContactList.Clear();
+            TerminatedAccounts();
+            SendApiRequest();
+            foreach(var exigo in ApiResponse.Customers.Where(c => c.Field8.Length > 5).ToList())
+            {
+                ContactList.Add(new ExigoContact()
+                {
+                    CrmGuid = exigo.Field8,
+                    ExigoID = exigo.CustomerID,
+                    EnrollerID = exigo.EnrollerID,
+                    FirstName = exigo.FirstName,
+                    LastName = exigo.LastName,
+                    Email = exigo.Email,
+                    Status = (ExigoStatusTypes)exigo.CustomerStatus
+
+                });
+            }            
+            if (ApiResponse.Result.Status == ResultStatus.Success)
+            {
+                LastMethodUsed = "Terminated";
+            }
+            return ContactList;
         }
 
 

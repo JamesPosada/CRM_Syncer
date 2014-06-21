@@ -22,9 +22,12 @@ namespace ConsoleTests
             //proccessor.ProcessList();
             //DataControls.UpdateModifiedAccounts up = new DataControls.UpdateModifiedAccounts();
             //up.IncrementalUpdate();
-            DataControls.NewAccountsControl nac = new DataControls.NewAccountsControl();
-            nac.CreateNewAccounts();
-            DataControls.Settings.Logging.logger.WriteAllLogs();
+            //DataControls.NewAccountsControl nac = new DataControls.NewAccountsControl();
+            //nac.CreateNewAccounts();
+            //DataControls.Settings.Logging.logger.WriteAllLogs();
+            DataControls.RemoveTerminatedAccounts rt = new DataControls.RemoveTerminatedAccounts();
+            rt.RemoveTermsNow();
+
 
 
             
