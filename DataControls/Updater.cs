@@ -231,16 +231,19 @@ namespace DataControls
             /// crm does not use states for countries other than US
             if (exigoContact.Country == "USA")
             {
-                if (!stringFieldMatch(crmContact.Address1_StateOrProvince, exigoContact.State, guid, Address1State, exigoContact.ExigoID))
+                if (!stringFieldMatch(exigoContact.State, crmContact.Address1_StateOrProvince, guid, Address1State, exigoContact.ExigoID))
                 {
                     _currentAccount.Address1_StateOrProvince = exigoContact.State;
                 }
             }
             else
             {
-                if (exigoContact.Country != "USA")
+                if (exigoContact.Country != "USA" & crmContact.Address1_StateOrProvince !=null)
                 {
-                    _currentAccount.Address1_StateOrProvince = string.Empty;
+                    if (!stringFieldMatch(string.Empty, crmContact.Address1_StateOrProvince, guid, Address1State, exigoContact.ExigoID))
+                    {
+                        _currentAccount.Address1_StateOrProvince = string.Empty;
+                    }
                 }
 
             }

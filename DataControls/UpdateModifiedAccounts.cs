@@ -67,14 +67,15 @@ namespace DataControls
         public void IncrementalUpdate()
         {
             crmAccounts.Clear();
-            AccountsToUpdate.AsParallel().ForAll(PopulateCrmAccounts);
+            AccountsToUpdate.ForEach(PopulateCrmAccounts);
+            //AccountsToUpdate.AsParallel().ForAll(PopulateCrmAccounts);
             ExigoRemoveGUIDs.ForEach(a => AccountsToUpdate.Remove(a));
             RemoveGuids();
-            //foreach (var c in crmAccounts)
-            //{
-            //    RunThroughUpdater(c);
-            //}
-            //updater.UpdateAllContacts();
+            foreach (var c in crmAccounts)
+            {
+                RunThroughUpdater(c);
+            }
+            updater.UpdateAllContacts();
 
         }
 
@@ -113,7 +114,7 @@ namespace DataControls
 
         private void RunThroughUpdater(Contact crmContact)
         {
-            var t = AccountsToUpdate.First(c=>c.ExigoID == crmContact.new_FREZZORID & c.CrmGuid == crmContact.Id.ToString());
+            var t = AccountsToUpdate.FirstOrDefault(c=>c.CrmGuid == crmContact.Id.ToString());
             if(t !=null)
             {
                 updater.CheckForUpdate(t, crmContact);
