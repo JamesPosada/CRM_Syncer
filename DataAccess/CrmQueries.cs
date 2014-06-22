@@ -142,6 +142,24 @@ namespace DataAccess
                 .Retrieve(Contact, id, DefaultColumnSet).ToEntity<Contact>();
         }
 
+        public IEnumerable<Contact> SearchForContact(Guid id, string firstName, string lastName)
+        {
+            QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = DefaultColumnSet };
+            ConditionExpression condition = new ConditionExpression(LastName, ConditionOperator.Equal, lastName);
+            ConditionExpression condition2 = new ConditionExpression(FirstName, ConditionOperator.Equal, firstName);
+            ConditionExpression condition3 = new ConditionExpression(ContactGUID, ConditionOperator.Equal, id);
+            SearchQuery.Criteria.AddCondition(condition);
+            SearchQuery.Criteria.AddCondition(condition2);
+            SearchQuery.Criteria.AddCondition(condition3);
+
+            return XrmConnection.GetOrganizationService()
+                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
+
+            
+
+        }
+
+
         /// <summary>
         /// Searches CRM for contacts that match exactly First Name, Last Name and Email
         /// </summary>

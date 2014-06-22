@@ -34,28 +34,34 @@ namespace DataControls
 
         public void RemoveTermsNow()
         {
-            //TermFromExigo.AsParallel().ForAll(LocateTermCrmAccount);
-
-            foreach( var a in TermFromExigo)
+          foreach( var a in TermFromExigo)
             {
                 LocateTermCrmAccount(a);
             }
         }
 
-
-
         private void LocateTermCrmAccount(ExigoContact eContact)
         {
-            var crmAccount = new Contact();
-            crmAccount = SearchForContact(eContact.GetGUID());
-            if(crmAccount.Id == eContact.GetGUID() && crmAccount.FirstName == eContact.FirstName && crmAccount.LastName == eContact.LastName)
+            var crmAccountList = SearchForContact(eContact.GetGUID(), eContact.FirstName, eContact.LastName);
+            if (crmAccountList.Count() > 0)
             {
-                crmContext.Update(new Contact()
+                var crmAccount = crmAccountList.FirstOrDefault();
+                if (crmAccount.Id == eContact.GetGUID() && crmAccount.FirstName == eContact.FirstName && crmAccount.LastName == eContact.LastName)
                 {
-                    Id = eContact.GetGUID(),
-                    New_Status = (int)eContact.Status
-                });
+                    crmContext.Update(new Contact()
+                    {
+                        Id = eContact.GetGUID(),
+                        New_Status = (int)eContact.Status
+                    });
+
+                    
+                }               
             }
+            ExigoApiContext.CreateWebServiceContext().UpdateCustomer(new ExigoDesktop.Exigo.WebService.UpdateCustomerRequest()
+            {
+                CustomerID = eContact.ExigoID,
+                Field8 = string.Empty
+            });
         }
 
     }
