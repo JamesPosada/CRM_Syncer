@@ -236,6 +236,17 @@ namespace DataControls
                     _currentAccount.Address1_StateOrProvince = exigoContact.State;
                 }
             }
+            else
+            {
+                if (exigoContact.Country != "USA")
+                {
+                    _currentAccount.Address1_StateOrProvince = string.Empty;
+                }
+
+            }
+
+
+
 
             if (crmContact.new_ExigoLastModifiedDate == null)
             {
@@ -274,7 +285,7 @@ namespace DataControls
                     _currentAccount.new_EnrollerWebAlias = exigoContact.EnrollerWebAlias;
                 }
             }
-            
+
             if (exigoContact.CustomerType != ExigoCustomerType.Independant && !string.IsNullOrEmpty(exigoContact.WebAlias))
             {
                 _currentAccount.NickName = string.Empty;
@@ -305,7 +316,7 @@ namespace DataControls
             return temp;
 
         }
-        
+
         #endregion
 
 
