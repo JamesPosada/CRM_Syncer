@@ -76,9 +76,9 @@ namespace DataControls
         private Dictionary<ExigoContact, Contact> _matchInCRMFoundByID;
 
 
-       /// <summary>
-       /// Holds both accounts that have been matched together by info
-       /// </summary>
+        /// <summary>
+        /// Holds both accounts that have been matched together by info
+        /// </summary>
         protected Dictionary<ExigoContact, Contact> MatchInCRMFoundByInfo
         {
             get
@@ -91,7 +91,7 @@ namespace DataControls
             }
         }
         private Dictionary<ExigoContact, Contact> _matchInCRMFoundByInfo;
-       
+
         private DataAccess.ExigoGetCustomers exigoContext;
 
         private Updater updater = new Updater();
@@ -113,7 +113,7 @@ namespace DataControls
         public NewContactProccessor(DataAccess.ExigoGetCustomers econtext)
         {
             exigoContext = econtext;
-            Settings.Logging.logger.SetLogName(Settings.Logging.AccountCheckingLog.Name, Settings.Logging.AccountCheckingLog.Headers);           
+            Settings.Logging.logger.SetLogName(Settings.Logging.AccountCheckingLog.Name, Settings.Logging.AccountCheckingLog.Headers);
             _crmWithExigoIDs = base.FREZZORContactsinCRM.ToList();
         }
         #endregion
@@ -122,10 +122,10 @@ namespace DataControls
 
         public void ProcessList()
         {
-            _uncheckedAccounts.ForEach(CheckCrmforContact);            
+            _uncheckedAccounts.ForEach(CheckCrmforContact);
             _uncheckedAccounts.Clear();
-            MatchInCRMFoundByID.Concat(MatchInCRMFoundByInfo).AsParallel().ForAll(RunThroughUpdater);
-            
+            MatchInCRMFoundByID.Concat(MatchInCRMFoundByInfo).ToList().ForEach(RunThroughUpdater);
+
         }
 
         /// <summary>
@@ -135,63 +135,63 @@ namespace DataControls
         /// <param name="listToCheck"></param>
         public void SetListToCheck(List<ExigoContact> listToCheck)
         {
-            if (UncheckedAccounts.Count >0)
+            if (UncheckedAccounts.Count > 0)
             {
-               foreach(var c in listToCheck)
-               {
-                   if(!UncheckedAccounts.Contains(c))
-                   {
-                       UncheckedAccounts.Add(c);
-                   }
-               }
+                foreach (var c in listToCheck)
+                {
+                    if (!UncheckedAccounts.Contains(c))
+                    {
+                        UncheckedAccounts.Add(c);
+                    }
+                }
             }
             else
             {
                 UncheckedAccounts.AddRange(listToCheck);
             }
         }
-        
+
         #endregion
 
         #region Private Methods
 
         private void CheckCrmforContact(ExigoContact exigoContact)
         {
-            if(CrmWithExigoIDs.AsParallel().Where(c=>c.new_FREZZORID == exigoContact.ExigoID).Count() > 0)
+            if (CrmWithExigoIDs.Where(c => c.new_FREZZORID == exigoContact.ExigoID).Count() > 0)
             {
-                var f = CrmWithExigoIDs.AsParallel().Where(c => c.new_FREZZORID == exigoContact.ExigoID).FirstOrDefault();
+                var f = CrmWithExigoIDs.Where(c => c.new_FREZZORID == exigoContact.ExigoID).FirstOrDefault();
                 MatchInCRMFoundByID.Add(exigoContact, f);
-                Settings.Logging.logger.LogData(Settings.Logging.AccountCheckingLog.Name, new List<string>() { exigoContact.ExigoID.ToString(),f.new_FREZZORID.ToString(),  "True", f.Id.ToString(), exigoContact.FirstName, exigoContact.LastName, exigoContact.Email, f.FirstName, f.LastName, f.EMailAddress1 });
+                Settings.Logging.logger.LogData(Settings.Logging.AccountCheckingLog.Name, new List<string>() { exigoContact.ExigoID.ToString(), f.new_FREZZORID.ToString(), "True", f.Id.ToString(), exigoContact.FirstName, exigoContact.LastName, exigoContact.Email, f.FirstName, f.LastName, f.EMailAddress1 });
                 return;
             }
             else
             {
                 var t = base.SearchForContact(exigoContact.FirstName, exigoContact.LastName, exigoContact.Email).FirstOrDefault();
-                if(t !=null)
+                if (t != null)
                 {
                     MatchInCRMFoundByInfo.Add(exigoContact, t);
                     Settings.Logging.logger.LogData(Settings.Logging.AccountCheckingLog.Name, new List<string>() { exigoContact.ExigoID.ToString(), t.new_FREZZORID.ToString(), "True", t.Id.ToString(), exigoContact.FirstName, exigoContact.LastName, exigoContact.Email, t.FirstName, t.LastName, t.EMailAddress1 });
                     return;
                 }
-                
+
             }
 
 
             NoMatchInCRMFound.Add(exigoContact);
-            Settings.Logging.logger.LogData(Settings.Logging.AccountCheckingLog.Name, new List<string>() { exigoContact.ExigoID.ToString(), "", "False", "", exigoContact.FirstName, exigoContact.LastName, exigoContact.Email, "", "","" });
+            Settings.Logging.logger.LogData(Settings.Logging.AccountCheckingLog.Name, new List<string>() { exigoContact.ExigoID.ToString(), "", "False", "", exigoContact.FirstName, exigoContact.LastName, exigoContact.Email, "", "", "" });
         }
 
         private void RunThroughUpdater(KeyValuePair<ExigoContact, Contact> dictionaryEntry)
         {
             updater.CheckForUpdate(dictionaryEntry.Key, dictionaryEntry.Value);
         }
-        
+
 
 
 
         #endregion
 
-        
+
 
     }
 }

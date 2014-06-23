@@ -23,7 +23,7 @@ namespace DataControls
 
         #endregion Properties
 
-        private UpdateExigoGuids() 
+        public UpdateExigoGuids() 
         {
              WithoutGuid = base.GetAllAccountsWithoutCrmGUIDs();
              CrmContactsWithFrezzorIDs = new CrmQueries().FREZZORContactsinCRM.ToList();
@@ -31,7 +31,7 @@ namespace DataControls
         }
 
 
-       private void ExecuteUpdate()
+       public void ExecuteUpdate()
         {
            foreach(var crmContact in CrmContactsWithFrezzorIDs)
            {

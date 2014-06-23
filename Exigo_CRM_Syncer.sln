@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataControls", "DataControl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{13FF5FB9-0CAF-476C-A51F-951099D17DE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM_Syncer_Controller", "CRM_Syncer_Controller\CRM_Syncer_Controller.csproj", "{4466EBEB-0E03-443C-968D-803467827221}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{13FF5FB9-0CAF-476C-A51F-951099D17DE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13FF5FB9-0CAF-476C-A51F-951099D17DE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13FF5FB9-0CAF-476C-A51F-951099D17DE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4466EBEB-0E03-443C-968D-803467827221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4466EBEB-0E03-443C-968D-803467827221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4466EBEB-0E03-443C-968D-803467827221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4466EBEB-0E03-443C-968D-803467827221}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

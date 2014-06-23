@@ -57,7 +57,7 @@ namespace DataControls
             exigoContext = new ExigoGetCustomers();
             updater = new Updater();
             crmAccounts = new List<Contact>();
-            LastCrmModDate = base.GetLastExigoModifedDate().Subtract(TimeSpan.FromDays(3000));
+            LastCrmModDate = base.GetLastExigoModifedDate().Subtract(TimeSpan.FromDays(1));
             _accountsToUpdate = exigoContext.GetAccountsGreaterThanModfiedOn(LastCrmModDate).Where(e => !string.IsNullOrEmpty(e.CrmGuid)).ToList();
             
         }
@@ -68,7 +68,7 @@ namespace DataControls
         {
             crmAccounts.Clear();
             AccountsToUpdate.ForEach(PopulateCrmAccounts);
-            //AccountsToUpdate.AsParallel().ForAll(PopulateCrmAccounts);
+         
             ExigoRemoveGUIDs.ForEach(a => AccountsToUpdate.Remove(a));
             RemoveGuids();
             foreach (var c in crmAccounts)

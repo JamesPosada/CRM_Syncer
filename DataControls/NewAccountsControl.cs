@@ -94,9 +94,8 @@ namespace DataControls
         
         private void GetNewAccounts()
         {
-            //var contacts = ExigoCustomersApi.GetAccountsGreaterThanID(CrmQ.GetLastIDNumber()).Where(c=>string.IsNullOrEmpty(c.CrmGuid));            
-            var contacts = ExigoCustomersApi.GetAllAccountsWithoutCrmGUIDs();
-            contacts.AsParallel().ForAll(FindAccountInCRM);
+            var contacts = ExigoCustomersApi.GetAccountsGreaterThanID(CrmQ.GetLastIDNumber()).Where(c=>string.IsNullOrEmpty(c.CrmGuid)).ToList();                      
+            contacts.ForEach(FindAccountInCRM);
             _newCrmAccountsToSubmit = new List<Contact>();
            
         }
