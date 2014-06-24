@@ -121,6 +121,7 @@ namespace DataControls
         private void CreateNewCrmAccount(ExigoContact eContact)
         {          
           Contact cContact = new Contact();
+          cContact.New_PhoneSync = false;
           updater.CheckForUpdate(eContact, cContact);
         }
 
