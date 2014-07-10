@@ -176,10 +176,11 @@ namespace DataControls
                 _currentAccount.EMailAddress1 = exigoContact.Email;
             }
 
-            if (exigoContact.GetBirthYear() != "1900")
+            if (exigoContact.GetBirthYear() != "1900" && exigoContact.GetBirthYear() != "0001")
             {
                 if (crmContact.New_BirthMonth.HasValue == false)
                 {
+                    _currentAccount.New_BirthMonth = exigoContact.GetBirthMonth();
                     UpdateNullField(guid, MonthOfBirth, exigoContact.GetBirthMonth().ToString(), exigoContact.ExigoID);
                 }
                 else
@@ -191,6 +192,7 @@ namespace DataControls
                 }
                 if (crmContact.New_BirthdayofMonth.HasValue == false)
                 {
+                    _currentAccount.New_BirthdayofMonth = exigoContact.GetBirthDay();
                     UpdateNullField(guid, DayOfBirth.ToString(), exigoContact.GetBirthDay().ToString(), exigoContact.ExigoID);
                 }
                 else
