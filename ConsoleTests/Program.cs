@@ -16,6 +16,9 @@ namespace ConsoleTests
             DataControls.UpdateModifiedAccounts up = new DataControls.UpdateModifiedAccounts();
             up.IncrementalUpdate();         
             DataControls.Settings.Logging.logger.WriteAllLogs();
+            //DataControls.Updater uma = new DataControls.Updater();
+            //uma.DeleteAllOnes();
+            
         }
     }
 }

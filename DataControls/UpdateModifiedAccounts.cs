@@ -59,6 +59,8 @@ namespace DataControls
             crmAccounts = new List<Contact>();
             LastCrmModDate = base.GetLastExigoModifedDate().Subtract(TimeSpan.FromDays(1));
             _accountsToUpdate = exigoContext.GetAccountsGreaterThanModfiedOn(LastCrmModDate).Where(e => !string.IsNullOrEmpty(e.CrmGuid)).ToList();
+            /// uncomment line below and comment out line above to update all accounts
+            //_accountsToUpdate = exigoContext.GetAccountsGreaterThanModfiedOn(new DateTime(2010,01,01)).Where(e => !string.IsNullOrEmpty(e.CrmGuid)).ToList();
             
         }
 

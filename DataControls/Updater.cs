@@ -176,7 +176,7 @@ namespace DataControls
                 _currentAccount.EMailAddress1 = exigoContact.Email;
             }
 
-            if (exigoContact.GetBirthYear() != "1900" && exigoContact.GetBirthYear() != "0001")
+            if (exigoContact.GetBirthYear() != "1900" & exigoContact.GetBirthYear() != "1")
             {
                 if (crmContact.New_BirthMonth.HasValue == false)
                 {
@@ -334,7 +334,8 @@ namespace DataControls
             {
                 foreach (var contact in _changedAccounts)
                 {
-                    crmContext.Update(contact);
+                   crmContext.Update(contact);
+                   
                 }
             }
         }
@@ -432,5 +433,25 @@ namespace DataControls
         const string Address2Country = "address2_country";
 
         #endregion
+
+
+        #region Helpers
+        public void DeleteAllOnes()
+        {
+            var context  = DataAccess.Utilities.GetCRMContext();
+            var list = new CrmQueries().GetAllBirthDayEqOne();
+            foreach(var c in list)
+            {
+                
+                c.New_BirthMonth = null;
+                c.New_BirthdayofMonth = null;
+                c.New_BirthYear = null;
+                context.Update(c);
+            }
+            
+        }
+
+        #endregion
+
     }
 }

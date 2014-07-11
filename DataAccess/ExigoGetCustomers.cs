@@ -289,7 +289,6 @@ namespace DataAccess
         /// <summary>
         /// Gets all Terminated Accounts (max of 50000) that have CRM GUIDS
         /// </summary>
-        /// <param name="modifiedDate">a datetime</param>
         /// <returns>A list of ExigoContacts</returns>
         public List<ExigoContact> GetTerminatedAccounts()
         {

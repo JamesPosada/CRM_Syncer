@@ -153,10 +153,20 @@ namespace DataAccess
             SearchQuery.Criteria.AddCondition(condition3);
 
             return XrmConnection.GetOrganizationService()
+                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();            
+
+        }
+
+        public IEnumerable<Contact> GetAllBirthDayEqOne()
+        {
+            QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = DefaultColumnSet };
+            ConditionExpression condition = new ConditionExpression(DayOfBirth, ConditionOperator.Equal, 1);
+            ConditionExpression condition2 = new ConditionExpression(MonthOfBirth , ConditionOperator.Equal, 1);
+            SearchQuery.Criteria.AddCondition(condition);
+            SearchQuery.Criteria.AddCondition(condition2);
+
+            return XrmConnection.GetOrganizationService()
                 .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
-
-            
-
         }
 
 
