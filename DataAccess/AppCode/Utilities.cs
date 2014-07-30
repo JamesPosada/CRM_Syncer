@@ -86,6 +86,10 @@ namespace DataAccess
                     return "United Kingdom";
                 case "CH":
                     return "Switzerland";
+                case "AU":
+                    return "Australia";
+                case "NZ":
+                    return "New Zealand";
                 default:
                     return string.Empty;
             }
@@ -260,6 +264,10 @@ namespace DataAccess
                     return "44";
                 case "Switzerland":
                     return "41";
+                case "Australia":
+                    return "61";
+                case"New Zealand":
+                    return "64";
                 default:
                     return string.Empty;
             }
