@@ -10,7 +10,18 @@ namespace Models
     {
         public int ExigoID { get; set; }
         public ExigoGenderType Gender { get; set; }
-        public int Rank { get; set; }
+        public int Rank
+        {
+            get
+            {
+                return _rank;
+            }
+            set
+            {
+                _rank = ExigoContact.Remappings.RankRemap(value);
+            }
+        }
+        private int _rank;
         public ExigoStatusTypes Status { get; set; }
         public string CrmGuid { get; set; }
         public string FirstName { get; set; }
@@ -72,10 +83,34 @@ namespace Models
         {
             return new Guid(CrmGuid);
         }
+        /// <summary>
+        ///  This class holds static remapping utils
+        /// </summary>
+        internal static class Remappings
+        {
+           /// <summary>
+           ///  Ranks in Exigo used to have an Emerald as 6, we changed to Diamond.
+           ///  CRM New_Rank definition now goes from Platnium == 5 and Diamond == 7
+           ///  six has been removed, CRM will throw an exception if 6 is attempted 
+           ///  to be inserted.
+           /// </summary>
+           /// <param name="ExigoRank"></param>
+           /// <returns></returns>
+            internal static int RankRemap(int? ExigoRank = 1)
+            {
+
+               ExigoRank = (ExigoRank != null) ? ExigoRank : 1;
+                if (ExigoRank == 6)
+                {
+                    return 7;
+                }
+                return (int)ExigoRank;
+            }
+
+        }
+
     }
 
-
-
-
+    
 
 }
