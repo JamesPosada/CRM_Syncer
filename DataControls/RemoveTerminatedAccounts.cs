@@ -9,6 +9,13 @@ using XrmV2;
 
 namespace DataControls
 {
+    /// <summary>
+    ///  This class will pull a list of all Exigo accounts in terminated status that have
+    ///  CRM GUID's stored on the Exigo profile. This class then searches CRM for an account that
+    ///  matches GUID, first name/last name, if found it will change status in crm to new_exigo status
+    ///  in crm to terminated and remove the GUID from exigo halting all future syncs for that exigo account.
+    ///  
+    /// </summary>
     public class RemoveTerminatedAccounts :CrmQueries
     {
         protected List<ExigoContact> TermFromExigo

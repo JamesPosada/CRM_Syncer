@@ -9,6 +9,9 @@ using XrmV2;
 
 namespace DataControls
 {
+    /// <summary>
+    /// Here is where we add new accounts to CRM
+    /// </summary>
    public class NewAccountsControl
     {
         const string Contact = "contact";

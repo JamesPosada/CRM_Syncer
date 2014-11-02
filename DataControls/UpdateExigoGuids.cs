@@ -9,6 +9,14 @@ using ExigoDesktop.Exigo.WebService;
 
 namespace DataControls
 {
+    /// <summary>
+    /// this class will tie together all CRM accounts to exigo accounts if CRM account has an ID number on it
+    /// and that ID number exists in Exigo without a GUID on it
+    /// first this pulls all exigo accounts that are in an active status and do not have a GUID
+    /// on them, next this pulls all CRM crm contacts with exigo ID numbers on them.
+    /// now for ever CRM account with FREZZOR id we check exigo accounts without GUID's for id number if we have a match
+    /// we write guid to exigo.
+    /// </summary>
     public class UpdateExigoGuids : ExigoGetCustomers
     {
         #region Properties

@@ -10,8 +10,13 @@ using XrmV2;
 namespace DataControls
 {
     /// <summary>
-    ///  Run this Class to do all updates, after doing all updates 
-    ///  
+    /// This class is used to preform incremntal updates to crm.
+    /// Here is a short breakdown of how we update
+    /// during instantization we get the date of last modifed in exigo date from crm 
+    /// then we subtract 1 day (done just to be inclusive) then we pull from exigo all acoounts modifed after
+    /// this date.... finally we compare accounts in CRM.... and update where needed.
+    ///  ***** important to run Remove Terminated Accounts, and UpdatedExigoGUIDs before running.
+    /// 
     /// </summary>
     public class UpdateModifiedAccounts : CrmQueries
     {
