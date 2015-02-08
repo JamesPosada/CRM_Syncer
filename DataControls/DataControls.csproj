@@ -30,9 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JLPeXigoDesktop, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>\\HOMER\Raid\SVN\workrepo\ExigoDll\JLPeXigoDesktop.dll</HintPath>
+    <Reference Include="JLPeXigoDesktop">
+      <HintPath>..\DataAccess\bin\Debug\JLPeXigoDesktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xrm.Client">
       <HintPath>D:\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Xrm.Client.dll</HintPath>
