@@ -58,7 +58,8 @@ namespace DataControls
                     crmContext.Update(new Contact()
                     {
                         Id = eContact.GetGUID(),
-                        New_Status = (int)eContact.Status
+                        New_Status = (int)eContact.Status,
+                         New_Type = (int)CrmCustomerType.Prospect
                     });
 
                     
