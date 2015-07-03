@@ -5,30 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Client.Services;
+using Microsoft.Xrm.Sdk.Client;
 
 
 namespace FrezzorXCrm {
-    internal class XCrmConnection {
+    public class XCrmConnection {
 
 
-        internal static Microsoft.Xrm.Client.CrmOrganizationServiceContext GetOrganizationService() {
+        
+        public static Microsoft.Xrm.Client.CrmOrganizationServiceContext GetOrganizationService() {
             return new Microsoft.Xrm.Client.CrmOrganizationServiceContext(GetCrmConnection());
         }
-        internal static XCrmContext GetCrmContext() {
+        public static XCrmContext GetCrmContext() {
             return new XCrmContext(XCrmConnection.GetCrmConnection());
         }
 
-        internal static CrmConnection GetCrmConnection() {
-            return new CrmConnection(GetConnectionString());
+        public static CrmConnection GetCrmConnection() {
+           return new CrmConnection(GetConnectionString());
         }
-        internal static System.Configuration.ConnectionStringSettings GetConnectionString() {
+        public static System.Configuration.ConnectionStringSettings GetConnectionString() {
             return _ConnectionString;
 
         }
-
-        private static System.Configuration.ConnectionStringSettings _ConnectionString =
+        public static System.Configuration.ConnectionStringSettings _ConnectionString =
             new System.Configuration.ConnectionStringSettings("Xrm", string.Format("Server={0};  Username={1}; Password={2}",
-                    Settings.CrmCredentials.Server, Settings.CrmCredentials.DomainWithUserName,
+                    Settings.CrmCredentials.Server, Settings.CrmCredentials.UserName,
                     System.Text.ASCIIEncoding.ASCII.GetString(Settings.CrmCredentials.Password)));
 
     }
