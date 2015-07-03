@@ -31,4 +31,9 @@ namespace Models
         Independant = 3,
         BusinessBuilder = 4
     }
+    public enum CrmCustomerType 
+    {
+        Prospect = 10
+
+    }
 }
