@@ -49,7 +49,7 @@ namespace DataAccess
                     Address1Country);
             }
         }
-        #endregion Properties
+        
 
 
         public IEnumerable<Contact> FREZZORContactsinCRM
@@ -65,7 +65,7 @@ namespace DataAccess
             }
         }
         private IEnumerable<Contact> _frezzorContactsinCRM;
-
+        #endregion Properties
 
         #region Private Methods
         /// <summary>
@@ -82,7 +82,6 @@ namespace DataAccess
                .RetrieveMultiple(AllExigoContacts).Entities.Cast<Contact>();           
         }
         #endregion Private Methods
-
 
         #region Public Searches
         /// <summary>
@@ -225,18 +224,15 @@ namespace DataAccess
 
         #endregion Public Searches
 
+        #region Enums
 
-
-
-
-
-        public enum SerachType
-        {
-            ByFirstNameOnly =1,
-            ByLastNameOnly =2,
-            ByEmailOnly =3
+        public enum SerachType {
+            ByFirstNameOnly = 1,
+            ByLastNameOnly = 2,
+            ByEmailOnly = 3
         }
-
+        
+        #endregion
 
         #region Constants
         const string Salutation = "salutation";
@@ -276,9 +272,7 @@ namespace DataAccess
         const string Address2State = "address2_stateorprovince";
         const string Address2ZipCode = "address2_postalcode";
         const string Address2Country = "address2_country";
-       
-
-
         #endregion
     }
+        
 }
