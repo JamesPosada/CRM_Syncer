@@ -13,7 +13,7 @@ namespace DataControls
     /// This class is used to preform incremntal updates to crm.
     /// Here is a short breakdown of how we update
     /// during instantization we get the date of last modifed in exigo date from crm 
-    /// then we subtract 1 day (done just to be inclusive) then we pull from exigo all acoounts modifed after
+    /// then we subtract 1 day (done just to be inclusive of all possible changes) then we pull from exigo all acoounts modifed after
     /// this date.... finally we compare accounts in CRM.... and update where needed.
     ///  ***** important to run Remove Terminated Accounts, and UpdatedExigoGUIDs before running.
     /// 
@@ -103,7 +103,12 @@ namespace DataControls
             
             
         }
-
+        /// <summary>
+        /// Here we are looking for an account in CRM using the GUID in Exigo if we find the Account
+        /// by GUID we are adding to crmAccounts list if we cannot find the GUID we add the account to the
+        /// ExigoRemoveGUIDs List.
+        /// </summary>
+        /// <param name="Econtact"></param>
         private void PopulateCrmAccounts(ExigoContact Econtact)
         {
             try
