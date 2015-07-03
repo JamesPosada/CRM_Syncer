@@ -90,6 +90,12 @@ namespace DataAccess
                     return "Australia";
                 case "NZ":
                     return "New Zealand";
+                case "CA":
+                    return "Canada";
+                case "JP":
+                    return "Japan";
+                case "AE":
+                    return "United Arab Emirates";
                 default:
                     return string.Empty;
             }
@@ -209,7 +215,7 @@ namespace DataAccess
             switch (DigitCountry)
             {
                 case "USA":
-                    return "1";
+                    return "1";                
                 case "Austria":
                     return "43";
                 case "Germany":
@@ -268,6 +274,12 @@ namespace DataAccess
                     return "61";
                 case"New Zealand":
                     return "64";
+                case "Canada":
+                    return "1";
+                case "United Arab Emirates":
+                    return "971";
+                case "Japan":
+                    return "81";
                 default:
                     return string.Empty;
             }
