@@ -95,7 +95,7 @@ namespace DataControls
                 _currentAccount.Address1_PostalCode = exigoContact.Zip;
             }
 
-            if (!stringFieldMatch(exigoContact.Country, crmContact.Address1_Country, guid, Address2Country, exigoContact.ExigoID))
+            if (!stringFieldMatch(exigoContact.Country, crmContact.Address1_Country, guid, Address1Country, exigoContact.ExigoID))
             {
                 _currentAccount.Address1_Country = exigoContact.Country;
             }
