@@ -152,7 +152,7 @@ namespace DataControls
             {
                 if (!intFieldMatch((int)exigoContact.CustomerType, (int)crmContact.New_Type, guid, FrezzorCustomerType, exigoContact.ExigoID))
                 {
-                    _currentAccount.New_Type = (int)crmContact.New_Type;
+                    _currentAccount.New_Type = (int)exigoContact.CustomerType;
                 }
             }
 

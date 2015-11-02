@@ -34,10 +34,10 @@
       <HintPath>..\DataAccess\bin\Debug\JLPeXigoDesktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xrm.Client">
-      <HintPath>D:\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Xrm.Client.dll</HintPath>
+      <HintPath>Z:\backup\Drvive\D\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Xrm.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk">
-      <HintPath>D:\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Xrm.Sdk.dll</HintPath>
+      <HintPath>Z:\backup\Drvive\D\Libs\CodeBase\MsCrmSdk\SDK\Bin\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -73,6 +73,9 @@
       <Project>{04b6998f-4e36-42d5-b83b-5e0d005c42de}</Project>
       <Name>Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
