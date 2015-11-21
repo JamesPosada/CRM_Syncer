@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XrmV2;
+using FrezzorXCrm;
 
 namespace DataControls
 {
@@ -31,7 +31,7 @@ namespace DataControls
         }
         private List<ExigoContact> _termFromExigo;
 
-        private XrmV2.Context crmContext { get; set; }
+        private XCrmContext crmContext { get; set; }
 
         public RemoveTerminatedAccounts()
         {

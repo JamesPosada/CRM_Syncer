@@ -64,14 +64,16 @@
   <ItemGroup>
     <Compile Include="AppCode\Settings.cs" />
     <Compile Include="AppCode\XrmConnection.cs" />
-    <Compile Include="AppCode\XrmV2.cs" />
     <Compile Include="CrmQueries.cs" />
     <Compile Include="ExigoGetCustomers.cs" />
-    <Compile Include="GetCustomerSiteResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AppCode\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CRM_Access\CRM_Access\CRM_Access.csproj">
+      <Project>{b726a4de-5ebf-4e59-88cf-4ef0aeb59a3e}</Project>
+      <Name>CRM_Access</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{04b6998f-4e36-42d5-b83b-5e0d005c42de}</Project>
       <Name>Models</Name>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess;
 using Models;
-using XrmV2;
+using FrezzorXCrm;
 
 namespace DataControls
 {
@@ -70,7 +70,7 @@ namespace DataControls
 
         private List<Contact> _newCrmAccountsToSubmit { get; set; }
         private Updater updater;
-        private XrmV2.Context _crmContext;
+        private FrezzorXCrm.XCrmContext _crmContext;
         #endregion
 
        #region Constructors

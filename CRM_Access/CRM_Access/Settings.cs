@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrezzorXCrm
 {
-    public static class Settings {
+    public static class AccessSettings {
         public static class CrmCredentials {
             public static string UserName = @"j.posada";
 
@@ -14,7 +14,8 @@ namespace FrezzorXCrm
             public static string Server = @"https://frezzor.dataresolution.net";
             public static byte[] Password {
                 get {
-                    return Utilities.PKEncode(@"YWRhc29wc2VtYWo=");
+                   
+                    return Utilities.PKEncode(Properties.Settings.Default.Setting);
                 }
             }
             public static string DomainWithUserName {

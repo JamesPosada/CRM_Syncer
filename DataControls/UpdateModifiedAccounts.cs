@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess;
 using Models;
-using XrmV2;
+using FrezzorXCrm;
 
 namespace DataControls
 {

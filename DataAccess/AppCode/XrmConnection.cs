@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XrmV2;
+using FrezzorXCrm;
 using Microsoft.Xrm.Client.Services;
 
 
@@ -18,9 +18,9 @@ namespace DataAccess
        {
            return new Microsoft.Xrm.Client.CrmOrganizationServiceContext(GetCrmConnection());
        }
-       internal static XrmV2.Context GetCrmContext()
+       internal static FrezzorXCrm.XCrmContext GetCrmContext()
        {
-           return new XrmV2.Context(GetCrmConnection());
+           return new FrezzorXCrm.XCrmContext(GetCrmConnection());
        }
 
        internal static CrmConnection GetCrmConnection()

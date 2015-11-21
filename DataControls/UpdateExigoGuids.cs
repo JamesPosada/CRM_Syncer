@@ -21,7 +21,7 @@ namespace DataControls
     {
         #region Properties
         private List<ExigoContact> WithoutGuid { get; set; }
-        private List<XrmV2.Contact> CrmContactsWithFrezzorIDs { get; set; }
+        private List<FrezzorXCrm.Contact> CrmContactsWithFrezzorIDs { get; set; }
 
         public int NumberOfContactsUpdated { get; set; }
         public int NumberOfContactsWithoutGuids

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Models;
 using DataAccess;
-using XrmV2;
+using FrezzorXCrm;
 
 namespace DataControls
 {
@@ -329,7 +329,7 @@ namespace DataControls
         #region Private Methods
         private void ProccessUpDates()
         {
-            XrmV2.Context crmContext = DataAccess.Utilities.GetCRMContext();
+            XCrmContext crmContext = DataAccess.Utilities.GetCRMContext();
             if (_changedAccounts.Count > 0)
             {
                 foreach (var contact in _changedAccounts)

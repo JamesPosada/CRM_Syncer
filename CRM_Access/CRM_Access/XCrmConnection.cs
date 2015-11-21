@@ -29,8 +29,8 @@ namespace FrezzorXCrm {
         }
         public static System.Configuration.ConnectionStringSettings _ConnectionString =
             new System.Configuration.ConnectionStringSettings("Xrm", string.Format("Server={0};  Username={1}; Password={2}",
-                    Settings.CrmCredentials.Server, Settings.CrmCredentials.UserName,
-                    System.Text.ASCIIEncoding.ASCII.GetString(Settings.CrmCredentials.Password)));
+                    AccessSettings.CrmCredentials.Server, AccessSettings.CrmCredentials.UserName,
+                    System.Text.ASCIIEncoding.ASCII.GetString(AccessSettings.CrmCredentials.Password)));
 
     }
 }

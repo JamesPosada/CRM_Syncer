@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Models;
-using XrmV2;
+using FrezzorXCrm;
 using DataLogger;
 using ExigoDesktop.Exigo.WebService;
 

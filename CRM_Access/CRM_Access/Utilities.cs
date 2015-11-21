@@ -8,6 +8,11 @@ namespace FrezzorXCrm {
     public static class Utilities {
        
 
+        public static string GetPhonePrefix(string countryCode)
+        {
+            return TelephoneUtils.PhoneUtils.GetPhonePrefix(countryCode);
+           
+        }
         public static string ConvertCountryForCRM(string country) {
             switch (country) {
                 case "US":
@@ -70,6 +75,8 @@ namespace FrezzorXCrm {
                     return "Australia";
                 case "NZ":
                     return "New Zealand";
+                case "HR":
+                    return "Croatia";
                 default:
                     return string.Empty;
             }
@@ -223,6 +230,8 @@ namespace FrezzorXCrm {
                     return "61";
                 case "New Zealand":
                     return "64";
+                case "Croatia":
+                    return Utilities.GetPhonePrefix(DigitCountry);
                 default:
                     return string.Empty;
             }

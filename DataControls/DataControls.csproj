@@ -61,6 +61,10 @@
     <Compile Include="UpdateExigoGuids.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CRM_Access\CRM_Access\CRM_Access.csproj">
+      <Project>{b726a4de-5ebf-4e59-88cf-4ef0aeb59a3e}</Project>
+      <Name>CRM_Access</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{3708d517-476e-4dab-bf96-013d02a5ebe1}</Project>
       <Name>DataAccess</Name>

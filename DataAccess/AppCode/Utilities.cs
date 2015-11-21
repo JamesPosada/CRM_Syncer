@@ -121,7 +121,7 @@ namespace DataAccess
             return Convert.FromBase64String(encodeMe);
         }
 
-        public static XrmV2.Context GetCRMContext()
+        public static FrezzorXCrm.XCrmContext GetCRMContext()
         {
             return XrmConnection.GetCrmContext();
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XrmV2;
+using FrezzorXCrm;
 
 
 namespace DataAccess
@@ -49,7 +49,7 @@ namespace DataAccess
                     Address1Country);
             }
         }
-        
+
 
 
         public IEnumerable<Contact> FREZZORContactsinCRM
@@ -78,8 +78,8 @@ namespace DataAccess
             ConditionExpression condition = new ConditionExpression(FrezzorID, ConditionOperator.NotNull);
             AllExigoContacts.Criteria.AddCondition(condition);
 
-           return XrmConnection.GetOrganizationService()
-               .RetrieveMultiple(AllExigoContacts).Entities.Cast<Contact>();           
+            return XrmConnection.GetOrganizationService()
+                .RetrieveMultiple(AllExigoContacts).Entities.Cast<Contact>();
         }
         #endregion Private Methods
 
@@ -98,7 +98,7 @@ namespace DataAccess
             switch (searchType)
             {
                 case SerachType.ByEmailOnly:
-                    SearchQuery.Criteria.AddCondition(new ConditionExpression(Email, ConditionOperator.Equal, searchString));                    
+                    SearchQuery.Criteria.AddCondition(new ConditionExpression(Email, ConditionOperator.Equal, searchString));
                     break;
                 case SerachType.ByFirstNameOnly:
                     SearchQuery.Criteria.AddCondition(new ConditionExpression(FirstName, ConditionOperator.Equal, searchString));
@@ -106,10 +106,10 @@ namespace DataAccess
                 case SerachType.ByLastNameOnly:
                     SearchQuery.Criteria.AddCondition(new ConditionExpression(LastName, ConditionOperator.Equal, searchString));
                     break;
-                default:                
+                default:
                     SearchQuery.Criteria.AddCondition(new ConditionExpression(Email, ConditionOperator.Equal, searchString));
                     break;
-            }                        
+            }
 
             return XrmConnection.GetOrganizationService()
                 .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
@@ -122,27 +122,38 @@ namespace DataAccess
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
         /// <returns>IEnumberable of Type XrmV2.Contact</returns>
-        //public IEnumerable<Contact> SearchForContact(string firstName, string lastName)
-        //{
-        //    QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = DefaultColumnSet };
-        //    ConditionExpression condition = new ConditionExpression(LastName, ConditionOperator.Equal, lastName);
-        //    ConditionExpression condition2 = new ConditionExpression(FirstName, ConditionOperator.Equal, firstName);
-        //    SearchQuery.Criteria.AddCondition(condition);
-        //    SearchQuery.Criteria.AddCondition(condition2);
-
-        //    return XrmConnection.GetOrganizationService()
-        //        .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
-        //}
-
-
-        public Contact SearchForContact(Guid id)
+        public IEnumerable<Contact> SearchForContact(string firstName, string lastName)
         {
+            QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = DefaultColumnSet };
+            ConditionExpression condition = new ConditionExpression(LastName, ConditionOperator.Equal, lastName);
+            ConditionExpression condition2 = new ConditionExpression(FirstName, ConditionOperator.Equal, firstName);
+            SearchQuery.Criteria.AddCondition(condition);
+            SearchQuery.Criteria.AddCondition(condition2);
+
+            return XrmConnection.GetOrganizationService()
+                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
+        }
+
+
+        public IEnumerable<Contact> SearchForContact(List<Guid> ListOfIds)
+        {
+            
+            //QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = DefaultColumnSet };
+            //ConditionExpression condition = new ConditionExpression(ContactGUID, ConditionOperator.In, ListOfIds);            
+            //SearchQuery.Criteria.AddCondition(condition);
+            return XrmConnection.GetCrmContext().ContactSet.Where(c => ListOfIds.Contains(c.Id));
+
+           // return XrmConnection.GetOrganizationService()
+             //   .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
+        }
+        public Contact GetSingleContat(Guid id) { 
             return XrmConnection.GetOrganizationService()
                 .Retrieve(Contact, id, DefaultColumnSet).ToEntity<Contact>();
         }
 
         public IEnumerable<Contact> SearchForContact(Guid id, string firstName, string lastName)
         {
+
             QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = DefaultColumnSet };
             ConditionExpression condition = new ConditionExpression(LastName, ConditionOperator.Equal, lastName);
             ConditionExpression condition2 = new ConditionExpression(FirstName, ConditionOperator.Equal, firstName);
@@ -152,7 +163,7 @@ namespace DataAccess
             SearchQuery.Criteria.AddCondition(condition3);
 
             return XrmConnection.GetOrganizationService()
-                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();            
+                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
 
         }
 
@@ -160,15 +171,55 @@ namespace DataAccess
         {
             QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = DefaultColumnSet };
             ConditionExpression condition = new ConditionExpression(DayOfBirth, ConditionOperator.Equal, 1);
-            ConditionExpression condition2 = new ConditionExpression(MonthOfBirth , ConditionOperator.Equal, 1);
+            ConditionExpression condition2 = new ConditionExpression(MonthOfBirth, ConditionOperator.Equal, 1);
             SearchQuery.Criteria.AddCondition(condition);
             SearchQuery.Criteria.AddCondition(condition2);
 
             return XrmConnection.GetOrganizationService()
                 .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>();
         }
+        /// <summary>
+        /// Returns AllGuids That Are TurnerOnly
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Guid> GetTurnerOnlyList()
+        {
+            QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = new ColumnSet(ContactGUID) };
+            ConditionExpression condition = new ConditionExpression(MarketingList, ConditionOperator.Equal, (int)MarketingLists.TurnerOnly);
+            SearchQuery.Criteria.AddCondition(condition);
+            return XrmConnection.GetOrganizationService()
+                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>().Select(c => c.Id);
 
+        }
 
+        public IEnumerable<Guid> GetFrezzorOnlyList()
+        {
+            QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = new ColumnSet(ContactGUID) };
+            ConditionExpression condition = new ConditionExpression(MarketingList, ConditionOperator.Equal, (int)MarketingLists.FREZZOROnly);
+            SearchQuery.Criteria.AddCondition(condition);
+            return XrmConnection.GetOrganizationService()
+                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>().Select(c => c.Id);
+        }
+
+        public IEnumerable<Guid> GetOmniList()
+        {
+            QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = new ColumnSet(ContactGUID) };
+            ConditionExpression condition = new ConditionExpression(MarketingList, ConditionOperator.Equal, (int)MarketingLists.All);
+            ConditionExpression condition2 = new ConditionExpression(MarketingList, ConditionOperator.Equal, (int)MarketingLists.AllLists);
+            SearchQuery.Criteria.AddCondition(condition);
+            SearchQuery.Criteria.AddCondition(condition2);
+            return XrmConnection.GetOrganizationService()
+                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>().Select(c => c.Id);
+        }
+        public IEnumerable<Guid> GetDoNotMailList()
+        {
+            QueryExpression SearchQuery = new QueryExpression(Contact) { ColumnSet = new ColumnSet(ContactGUID) };
+            ConditionExpression condition = new ConditionExpression(MarketingList, ConditionOperator.Equal, (int)MarketingLists.DoNotSend);
+
+            SearchQuery.Criteria.AddCondition(condition);
+            return XrmConnection.GetOrganizationService()
+                .RetrieveMultiple(SearchQuery).Entities.Cast<Contact>().Select(c => c.Id);
+        }
         /// <summary>
         /// Searches CRM for contacts that match exactly First Name, Last Name and Email
         /// </summary>
@@ -182,7 +233,7 @@ namespace DataAccess
             ConditionExpression condition = new ConditionExpression(LastName, ConditionOperator.Equal, lastName);
             ConditionExpression condition2 = new ConditionExpression(FirstName, ConditionOperator.Equal, firstName);
             ConditionExpression condition3 = new ConditionExpression(Email, ConditionOperator.Equal, email);
-            
+
 
             SearchQuery.Criteria.AddCondition(condition);
             SearchQuery.Criteria.AddCondition(condition2);
@@ -212,7 +263,7 @@ namespace DataAccess
             QueryExpression qExpr = new QueryExpression(Contact) { ColumnSet = new ColumnSet(FrezzorID) };
             OrderExpression orderExpr = new OrderExpression(FrezzorID, OrderType.Descending);
             ConditionExpression condition = new ConditionExpression(FrezzorID, ConditionOperator.NotNull);
-           // ConditionExpression condition2 = new ConditionExpression(EnrollerId, ConditionOperator.NotNull);
+            // ConditionExpression condition2 = new ConditionExpression(EnrollerId, ConditionOperator.NotNull);
             qExpr.Criteria.AddCondition(condition);
             //qExpr.Criteria.AddCondition(condition2);
             qExpr.Orders.Add(orderExpr);
@@ -226,12 +277,13 @@ namespace DataAccess
 
         #region Enums
 
-        public enum SerachType {
+        public enum SerachType
+        {
             ByFirstNameOnly = 1,
             ByLastNameOnly = 2,
             ByEmailOnly = 3
         }
-        
+
         #endregion
 
         #region Constants
@@ -272,7 +324,8 @@ namespace DataAccess
         const string Address2State = "address2_stateorprovince";
         const string Address2ZipCode = "address2_postalcode";
         const string Address2Country = "address2_country";
+        const string MarketingList = "new_marketinglists";
         #endregion
     }
-        
+
 }
